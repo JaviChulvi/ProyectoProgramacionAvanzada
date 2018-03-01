@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 public class EmpresaTelefonia {
     HashMap<String, Cliente> clientes;
+    HashMap<String, Factura> facturas;
 
     // CLIENTES
 
@@ -69,7 +70,7 @@ public class EmpresaTelefonia {
     public Boolean hacerLlamada(String NIF, Integer telefonoDestino, Integer duracion){
         if(clientes.containsKey(NIF)){
             Llamada llamada = new Llamada(telefonoDestino, new Date(), duracion);
-            if(clientes.get(NIF).llamadas.add(llamada)) {
+            if(clientes.get(NIF).llamadas.add(llamada)){
                 return true;
             } else {
                 return false;
@@ -79,4 +80,40 @@ public class EmpresaTelefonia {
         }
 
     }
+
+    public ArrayList listarLlamadas(String NIF) {
+        ArrayList llamadasCliente = clientes.get(NIF).llamadas;
+        return llamadasCliente;
+    }
+
+    //FACTURAS
+
+    //Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas
+
+    public Boolean emitirFactura(String NIF){
+        Tarifa tarActual = clientes.get(NIF).tarifa;
+        Factura emision = new Factura(tarActual, new Date(), );
+
+
+        return true;
+    }
+
+    //Recuperar los datos de una factura a partir de su código.
+
+    public Factura datosFactura(Integer codigo){
+        return facturas.get(codigo);
+    }
+
+
+
+
+    //Recuperar todas las facturas de un cliente.
+    public ArrayList listarFacturas(String NIF){
+        ArrayList facturasClientes = clientes.get(NIF).facturas;
+        return facturasClientes;
+    }
+
+
+
+
 }
