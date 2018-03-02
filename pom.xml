@@ -3,11 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>es.uji.al364498</groupId>
     <artifactId>Practica1-PA</artifactId>
     <version>0.0.1</version>
-
     <properties>
         <java.version>1.8</java.version>
         <!--<junit.jupiter.version>5.0.2</junit.jupiter.version>-->
@@ -36,7 +34,6 @@
                     <source>${java.version}</source>
                 </configuration>
             </plugin>
-
             <!--Para ejecutar desde línea de instrucciones-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -69,9 +66,11 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.CursoJRD</groupId>
+            <groupId>es.uji.www</groupId>
             <artifactId>GeneradorDatosINE</artifactId>
-            <version>0.0.5</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/generadorNombres.jar</systemPath>
+            <version>1</version>
         </dependency>
     </dependencies>
 </project>

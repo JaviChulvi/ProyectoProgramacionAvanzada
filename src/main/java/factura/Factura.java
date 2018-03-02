@@ -11,10 +11,10 @@ import java.util.Date;
 public class Factura {
     public static Integer codigo = 0;
     public Tarifa tarifaAplicada;
-    public Calendar fechaEmision;
+    public Date fechaEmision;
     public Calendar[] periodoFacturacion;
 
-    public Factura(Integer codigo, Tarifa tarifaAplicada, Calendar fechaEmision, Calendar[] periodoFacturacion) {
+    public Factura(Tarifa tarifaAplicada, Date fechaEmision, Calendar[] periodoFacturacion) {
         this.codigo = codigo++;
         this.tarifaAplicada = tarifaAplicada;
         this.fechaEmision = fechaEmision;
