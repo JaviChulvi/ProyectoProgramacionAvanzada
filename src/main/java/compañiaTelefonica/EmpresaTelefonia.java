@@ -90,13 +90,13 @@ public class EmpresaTelefonia {
 
     //Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas
 
-    public Boolean emitirFactura(String NIF){
+    /*public Boolean emitirFactura(String NIF){
         Tarifa tarActual = clientes.get(NIF).tarifa;
         Factura emision = new Factura(tarActual, new Date(), );
 
 
         return true;
-    }
+    }*/
 
     //Recuperar los datos de una factura a partir de su código.
 
