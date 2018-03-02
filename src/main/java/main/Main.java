@@ -1,9 +1,7 @@
 package main;
 
 import clientes.Direccion;
-import clientes.Empresa;
 import compañiaTelefonica.EmpresaTelefonia;
-import es.uji.belfern.generador.GeneradorDatosINE;
 
 import java.util.Scanner;
 
@@ -11,13 +9,13 @@ import java.util.Scanner;
  * Created by al364498 on 20/02/18.
  */
 public class Main {
-    public static Boolean screenDarDeAltaCliente(){
+    public static void screenDarDeAltaCliente() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Particular o Empresa:");
         String tipo = scanner.nextLine();
         System.out.print("Introduce el nombre:");
         String nombre = scanner.nextLine();
-        if(tipo=="particular" || tipo=="p"){
+        if (tipo == "particular" || tipo == "p") {
             System.out.print("Introduce los apellidos:");
             String apellidos = scanner.nextLine();
         }
@@ -34,26 +32,19 @@ public class Main {
         System.out.print("Introduce el email:");
         String email = scanner.nextLine();
 
-        if(tipo=="particular" || tipo=="p"){
+        /*if(tipo=="particular" || tipo=="p"){
             telefonica.añadirClienteParticular(nombre, apellidos, NIF, dirNuevoCliente, email );
         }
-        telefonica.añadirClienteParticular(nombre, )
+        telefonica.añadirClienteParticular(nombre, )*/
         //añadirClienteParticular(String nombre, String apellidos, String NIF, Direccion direccion, String email)
 
 
-
-
-
-        if(tipo=="particular" || tipo=="p"){
-
-        }else{
+        if (tipo == "particular" || tipo == "p") {
 
         }
-
-
-
-        return true;
     }
+
+
     public static void main(String[] args){
         EmpresaTelefonia telefonica = new EmpresaTelefonia();
         System.out.println(Menu.getMenu());
