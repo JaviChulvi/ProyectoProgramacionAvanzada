@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class EmpresaTelefonia {
-    HashMap<String, Cliente> clientes;
-    HashMap<String, Factura> facturas;
+    public HashMap<String, Cliente> clientes;
+    public HashMap<String, Factura> facturas;
     public EmpresaTelefonia() {
         this.clientes = new HashMap<String, Cliente>();
         this.facturas = new HashMap<String, Factura>();

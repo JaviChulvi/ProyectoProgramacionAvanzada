@@ -17,7 +17,8 @@ public enum Menu {
 
 
     ALTA_NUEVO_CLIENTE("Dar de alta un nuevo cliente."),
-    BORRAR_CLIENTE("Cambiar la tarifa de un cliente."),
+    BORRAR_CLIENTE("Borrar un cliente."),
+    CAMBIAR_TARIFA("Cambiar la tarifa de un cliente."),
     DATOS_CLIENTE("Recuperar los datos de un cliente a partir de su NIF."),
     LISTADO_CLIENTE("Recuperar el listado de todos los clientes."),
     ALTA_LLAMADA("Dar de alta una llamada."),
