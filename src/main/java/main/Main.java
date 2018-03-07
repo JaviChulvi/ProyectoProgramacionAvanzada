@@ -10,9 +10,9 @@ import java.util.Scanner;
  * Created by al364498 on 20/02/18.
  */
 public class Main {
-    private EmpresaTelefonia telefonica = new EmpresaTelefonia();
+    private static EmpresaTelefonia telefonica = new EmpresaTelefonia();
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         System.out.println(Menu.getMenu());
         Scanner scanner = new Scanner(System.in);
         System.out.print("Elije una opción:");
@@ -28,10 +28,12 @@ public class Main {
                 screenBorrarCliente();
                 break;
             case CAMBIAR_TARIFA:
-                System.out.println("Borrar un cliente.");
+                System.out.println("Cambiar la tarifa de un cliente.");
+                screenCambiarTarifa();
                 break;
             case DATOS_CLIENTE:
                 System.out.println("Mostrar datos de un cliente a partir de su NIF.");
+                screenDatosCliente();
                 break;
             case ALTA_LLAMADA:
                 System.out.println("Opción 3.");
@@ -54,7 +56,7 @@ public class Main {
         }
     }
 
-    public void screenInfoCliente(Cliente cliente){
+    public static void screenInfoCliente(Cliente cliente){
         System.out.print("Datos del cliente.");
         System.out.print("Nombre: "+cliente.nombre);
         System.out.print("Direccion:");
@@ -65,7 +67,7 @@ public class Main {
         System.out.print("Fecha de Alta: "+cliente.fechaDeAlta.toString());
     }
 
-    public void screenDarDeAltaCliente() {
+    public static void screenDarDeAltaCliente() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Particular o Empresa:");
         String tipo = scanner.nextLine();
@@ -94,7 +96,7 @@ public class Main {
             telefonica.añadirClienteEmpresa(nombre, NIF, dirNuevoCliente, email );
         }
     }
-    public void screenBorrarCliente() {
+    public static void screenBorrarCliente() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Introduce el NIF del cliente que quieras eliminar:");
         String NIF = scanner.nextLine();
@@ -107,13 +109,29 @@ public class Main {
         }
     }
 
-    public void screenCambiarTarifa() {
+    public static void screenCambiarTarifa() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Introduce el NIF del cliente que quieras cambiar la Tarifa: ");
         String NIF = scanner.nextLine();
-        System.out.print("Introduce la nueva Tarifa para el cliente seleccionado: ");
-        Double nuevaTarifa = scanner.nextDouble();
-        telefonica.clientes.get(NIF).tarifa.setTarifa(nuevaTarifa);
+        if (telefonica.clientes.containsKey(NIF)) {
+            System.out.print("Introduce la nueva Tarifa para el cliente seleccionado: ");
+            Double nuevaTarifa = scanner.nextDouble();
+            telefonica.clientes.get(NIF).tarifa.setTarifa(nuevaTarifa);
+        } else {
+            System.out.println("No se ha encontrado el cliente.");
+        }
+
+    }
+
+    public static void screenDatosCliente (){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Introduce el NIF del cliente: ");
+        String NIF = scanner.nextLine();
+        if (telefonica.clientes.containsKey(NIF)) {
+            screenInfoCliente(telefonica.clientes.get(NIF));
+        } else {
+            System.out.println("No se ha encontrado el cliente.");
+        }
     }
 
 
