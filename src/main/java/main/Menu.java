@@ -20,7 +20,7 @@ public enum Menu {
     BORRAR_CLIENTE("Borrar un cliente."),
     CAMBIAR_TARIFA("Cambiar la tarifa de un cliente."),
     DATOS_CLIENTE("Recuperar los datos de un cliente a partir de su NIF."),
-    LISTADO_CLIENTE("Recuperar el listado de todos los clientes."),
+    LISTADO_CLIENTES("Recuperar el listado de todos los clientes."),
     ALTA_LLAMADA("Dar de alta una llamada."),
     LISTAR_LLAMADAS_CLIENTE("Listar todas las llamadas de un cliente."),
     EMITIR_FACTURAS_CLIENTE("Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas."),

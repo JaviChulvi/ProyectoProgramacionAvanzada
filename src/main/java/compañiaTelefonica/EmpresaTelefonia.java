@@ -85,8 +85,8 @@ public class EmpresaTelefonia {
 
     }
 
-    public ArrayList listarLlamadas(String NIF) {
-        ArrayList llamadasCliente = clientes.get(NIF).llamadas;
+    public ArrayList<Llamada> listarLlamadas(String NIF) {
+        ArrayList<Llamada> llamadasCliente = clientes.get(NIF).llamadas;
         return llamadasCliente;
     }
 
@@ -112,8 +112,8 @@ public class EmpresaTelefonia {
 
 
     //Recuperar todas las facturas de un cliente.
-    public ArrayList listarFacturas(String NIF){
-        ArrayList facturasClientes = clientes.get(NIF).facturas;
+    public ArrayList<Factura> listarFacturas(String NIF){
+        ArrayList<Factura> facturasClientes = clientes.get(NIF).facturas;
         return facturasClientes;
     }
 
