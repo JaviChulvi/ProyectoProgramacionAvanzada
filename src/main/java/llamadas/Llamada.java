@@ -12,4 +12,8 @@ public class Llamada {
         this.fechaYhora = fechaYhora;
         this.duración = duración;
     }
+
+    public Date getFecha() {
+        return this.fechaYhora;
+    }
 }

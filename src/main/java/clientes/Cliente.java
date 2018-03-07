@@ -32,4 +32,7 @@ public abstract class Cliente {
         this.facturas = facturas;
         this.llamadas = llamadas;
     }
+    public Date getFecha(){
+        return this.fechaDeAlta;
+    }
 }

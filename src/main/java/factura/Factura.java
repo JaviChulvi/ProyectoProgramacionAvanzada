@@ -20,7 +20,9 @@ public class Factura {
         this.fechaEmision = fechaEmision;
         this.periodoFacturacion = periodoFacturacion;
     }
-
+    public Date getFecha(){
+        return this.fechaEmision;
+    }
     /*public float importe(){
         return suma de minutos de llamadas * tarifa
     }*/
