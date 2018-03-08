@@ -12,9 +12,9 @@ public class Factura {
     public static Integer codigo = 0;
     public Tarifa tarifaAplicada;
     public Date fechaEmision;
-    public Calendar[] periodoFacturacion;
+    public Date[] periodoFacturacion;
 
-    public Factura(Tarifa tarifaAplicada, Date fechaEmision, Calendar[] periodoFacturacion) {
+    public Factura(Tarifa tarifaAplicada, Date fechaEmision, Date[] periodoFacturacion) {
         this.codigo = codigo++;
         this.tarifaAplicada = tarifaAplicada;
         this.fechaEmision = fechaEmision;

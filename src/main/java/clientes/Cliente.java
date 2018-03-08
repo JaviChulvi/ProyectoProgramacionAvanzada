@@ -21,6 +21,20 @@ public abstract class Cliente {
     public Tarifa tarifa;
     public ArrayList<Factura> facturas;
     public ArrayList<Llamada> llamadas;
+    public ArrayList<Llamada> llamadasSinFacturar;
+
+
+    public Cliente(String nombre, String NIF, Direccion direccion, String email, Date fechaDeAlta, Tarifa tarifa, ArrayList<Factura> facturas, ArrayList<Llamada> llamadas, ArrayList<Llamada> llamadasSinFacturar) {
+        this.nombre = nombre;
+        this.NIF = NIF;
+        this.direccion = direccion;
+        this.email = email;
+        this.fechaDeAlta = fechaDeAlta;
+        this.tarifa = tarifa;
+        this.facturas = facturas;
+        this.llamadas = llamadas;
+        this.llamadasSinFacturar = llamadasSinFacturar;
+    }
 
     public Cliente(String nombre, String NIF, Direccion direccion, String email, Date fechaDeAlta, Tarifa tarifa, ArrayList<Factura> facturas, ArrayList<Llamada> llamadas) {
         this.nombre = nombre;
@@ -32,6 +46,7 @@ public abstract class Cliente {
         this.facturas = facturas;
         this.llamadas = llamadas;
     }
+
     public Date getFecha(){
         return this.fechaDeAlta;
     }

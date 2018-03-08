@@ -13,10 +13,10 @@ import java.util.HashMap;
 
 public class EmpresaTelefonia {
     public HashMap<String, Cliente> clientes;
-    public HashMap<String, Factura> facturas;
+    public HashMap<Integer, Factura> facturas;
     public EmpresaTelefonia() {
         this.clientes = new HashMap<String, Cliente>();
-        this.facturas = new HashMap<String, Factura>();
+        this.facturas = new HashMap<Integer, Factura>();
     }
 
     // CLIENTES
@@ -24,7 +24,7 @@ public class EmpresaTelefonia {
     public void añadirClienteParticular(String nombre, String apellidos, String NIF, Direccion direccion, String email) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
-        Cliente particular = new Particular(nombre, apellidos, NIF, direccion, email, new Date(), new Tarifa(), facturas, llamadas);
+        Cliente particular = new Particular(nombre, NIF, direccion, email, new Date(), new Tarifa(), facturas, llamadas,  apellidos);
         clientes.put(particular.NIF, particular);
     }
 
@@ -74,11 +74,9 @@ public class EmpresaTelefonia {
     public Boolean hacerLlamada(String NIF, Integer telefonoDestino, Integer duracion){
         if(clientes.containsKey(NIF)){
             Llamada llamada = new Llamada(telefonoDestino, new Date(), duracion);
-            if(clientes.get(NIF).llamadas.add(llamada)){
-                return true;
-            } else {
-                return false;
-            }
+            clientes.get(NIF).llamadasSinFacturar.add(llamada);
+            clientes.get(NIF).llamadas.add(llamada);
+            return true;
         }else{
             return false;
         }
@@ -94,15 +92,22 @@ public class EmpresaTelefonia {
 
     //Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas
 
-    /*public Boolean emitirFactura(String NIF){
+    public Factura emitirFactura(String NIF){
         Tarifa tarActual = clientes.get(NIF).tarifa;
-        Factura emision = new Factura(tarActual, new Date(), );
+        Integer totalMinutos = 0;
+        Date fechaPrimeraSinFacturar = clientes.get(NIF).llamadasSinFacturar.get(0).getFecha();
+        for(Llamada llamada : clientes.get(NIF).llamadasSinFacturar) {
+            totalMinutos += llamada.duración;
+        }
+        Double importe = tarActual.precioSec * totalMinutos;
+        Date[] periodoFacturacion = new Date[]{fechaPrimeraSinFacturar, new Date()};
+        Factura emision = new Factura(tarActual, new Date(), periodoFacturacion);
+        clientes.get(NIF).facturas.add(emision);
+        clientes.get(NIF).llamadasSinFacturar.clear();
+        facturas.put(emision.codigo, emision);
+        return emision;
+    }
 
-
-        return true;
-    }*/
-
-    //Recuperar los datos de una factura a partir de su código.
 
     public Factura datosFactura(Integer codigo){
         return facturas.get(codigo);

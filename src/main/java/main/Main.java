@@ -63,6 +63,7 @@ public class Main {
                 break;
             case EMITIR_FACTURAS_CLIENTE:
                 System.out.println("Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas.");
+                screenEmitirFactura();
                 break;
             case DATOS_FACTURA:
                 System.out.println("Opción 3.");
@@ -88,28 +89,39 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Particular o Empresa:");
         String tipo = scanner.nextLine();
-        System.out.print("Introduce el nombre:");
-        String nombre = scanner.nextLine();
-        String apellidos = null;
         if (tipo=="particular" || tipo=="p") {
+            System.out.print("Introduce el nombre:");
+            String nombre = scanner.nextLine();
             System.out.print("Introduce los apellidos:");
-            apellidos = scanner.nextLine();
-        }
-        System.out.print("Introduce el NIF:");
-        String NIF = scanner.nextLine();
-        System.out.println("A continuación introduce los datos de la Dirreción.");
-        System.out.print("  Introduce el codigo postal:");
-        Integer CP = scanner.nextInt();
-        System.out.print("  Introduce el provincia:");
-        String provincia = scanner.nextLine();
-        System.out.print("  Introduce el poblacion:");
-        String poblacion = scanner.nextLine();
-        Direccion dirNuevoCliente = new Direccion(CP, provincia, poblacion);
-        System.out.print("Introduce el email:");
-        String email = scanner.nextLine();
-        if(apellidos!=null){
+            String apellidos = scanner.nextLine();
+            System.out.print("Introduce el NIF:");
+            String NIF = scanner.nextLine();
+            System.out.println("A continuación introduce los datos de la Dirreción.");
+            System.out.print("  Introduce el codigo postal:");
+            Integer CP = scanner.nextInt();
+            System.out.print("  Introduce el provincia:");
+            String provincia = scanner.nextLine();
+            System.out.print("  Introduce el poblacion:");
+            String poblacion = scanner.nextLine();
+            Direccion dirNuevoCliente = new Direccion(CP, provincia, poblacion);
+            System.out.print("Introduce el email:");
+            String email = scanner.nextLine();
             telefonica.añadirClienteParticular(nombre, apellidos, NIF, dirNuevoCliente, email );
         } else {
+            System.out.print("Introduce el nombre:");
+            String nombre = scanner.nextLine();
+            System.out.print("Introduce el NIF:");
+            String NIF = scanner.nextLine();
+            System.out.println("A continuación introduce los datos de la Dirreción.");
+            System.out.print("  Introduce el codigo postal:");
+            Integer CP = scanner.nextInt();
+            System.out.print("  Introduce el provincia:");
+            String provincia = scanner.nextLine();
+            System.out.print("  Introduce el poblacion:");
+            String poblacion = scanner.nextLine();
+            Direccion dirNuevoCliente = new Direccion(CP, provincia, poblacion);
+            System.out.print("Introduce el email:");
+            String email = scanner.nextLine();
             telefonica.añadirClienteEmpresa(nombre, NIF, dirNuevoCliente, email );
         }
     }
@@ -213,5 +225,16 @@ public class Main {
             System.out.println("No existe un cliente con el NIF = "+ NIF);
         }
 
+    }
+    public static void screenEmitirFactura(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Introduce el NIF del cliente del cual quieras emitir una factura: ");
+        String NIF = scanner.nextLine();
+        if(telefonica.clientes.containsKey(NIF)){
+            Factura emitida = telefonica.emitirFactura(NIF);
+            System.out.println("Tarifa aplicada: "+ emitida.tarifaAplicada);
+            System.out.println("Fecha de emisión: "+ emitida.fechaEmision.toString());
+            System.out.println("Periodo de facturación: de"+ emitida.periodoFacturacion[0].toString() +" a "+ emitida.periodoFacturacion[1].toString());
+        }
     }
 }
