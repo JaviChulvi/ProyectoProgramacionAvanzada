@@ -50,7 +50,8 @@ public class Main {
                 screenDatosCliente();
                 break;
             case ALTA_LLAMADA:
-                System.out.println("Opción 3.");
+                System.out.println("Introduce los siguientes datos para dar de alta una llamada.");
+                screenHacerLlamada();
                 break;
             case LISTADO_CLIENTES:
                 System.out.println("A continuación se va a mostrar por pantalla todos los clientes.");
@@ -197,5 +198,20 @@ public class Main {
         } else {
             System.out.println("No existe un cliente con el NIF = "+ NIF);
         }
+    }
+    public static void screenHacerLlamada(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Introduce el NIF del cliente: ");
+        String NIF = scanner.nextLine();
+        if(telefonica.clientes.containsKey(NIF)){
+            System.out.print("Introduce el telefono destino de la llamada: ");
+            Integer telefonoDestino = scanner.nextInt();
+            System.out.print("Introduce la duración de la llamada: ");
+            Integer duracion = scanner.nextInt();
+            telefonica.hacerLlamada(NIF, telefonoDestino, duracion);
+        } else {
+            System.out.println("No existe un cliente con el NIF = "+ NIF);
+        }
+
     }
 }
