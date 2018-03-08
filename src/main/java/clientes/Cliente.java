@@ -13,12 +13,12 @@ import java.util.Date;
  */
 
 public abstract class Cliente {
-    public String nombre;
-    public String NIF;
-    public Direccion direccion;
-    public String email;
-    public Date fechaDeAlta;
-    public Tarifa tarifa;
+    private String nombre;
+    private String NIF;
+    private Direccion direccion;
+    private String email;
+    private Date fechaDeAlta;
+    private Tarifa tarifa;
     public ArrayList<Factura> facturas;
     public ArrayList<Llamada> llamadas;
     public ArrayList<Llamada> llamadasSinFacturar;
@@ -49,5 +49,55 @@ public abstract class Cliente {
 
     public Date getFecha(){
         return this.fechaDeAlta;
+    }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Cliente " + nombre + " (" + NIF + "):\n");
+        sb.append("  Correo electrónico: " + email + "\n");
+        sb.append("  Dirección: " + direccion.toString() + "\n");
+        sb.append("  Fecha de alta: " + fechaDeAlta.toString() + "\n");
+        sb.append("  Tarifa: " + tarifa.toString());
+        return sb.toString();
+    }
+
+    public void setTarifa(Tarifa tarifa){
+        this.tarifa = tarifa;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getNIF() {
+        return NIF;
+    }
+
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Date getFechaDeAlta() {
+        return fechaDeAlta;
+    }
+
+    public Tarifa getTarifa() {
+        return tarifa;
+    }
+
+    public ArrayList<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public ArrayList<Llamada> getLlamadas() {
+        return llamadas;
+    }
+
+    public ArrayList<Llamada> getLlamadasSinFacturar() {
+        return llamadasSinFacturar;
     }
 }

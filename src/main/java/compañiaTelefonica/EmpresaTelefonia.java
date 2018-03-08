@@ -7,9 +7,8 @@ import clientes.Particular;
 import factura.Factura;
 import llamadas.Llamada;
 import tarifa.Tarifa;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+
+import java.util.*;
 
 public class EmpresaTelefonia {
     public HashMap<String, Cliente> clientes;
@@ -21,18 +20,20 @@ public class EmpresaTelefonia {
 
     // CLIENTES
 
-    public void añadirClienteParticular(String nombre, String apellidos, String NIF, Direccion direccion, String email) {
+    public void añadirClienteParticular(String nombre, String apellido1, String apellido2, String NIF, Direccion direccion, String email, Double precioSec) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
-        Cliente particular = new Particular(nombre, NIF, direccion, email, new Date(), new Tarifa(), facturas, llamadas,  apellidos);
-        clientes.put(particular.NIF, particular);
+        ArrayList<Llamada> llamadasSinFacturar = new ArrayList<Llamada>();
+        Cliente particular = new Particular(nombre, NIF, direccion, email, new Date(), new Tarifa(precioSec), facturas, llamadas,  apellido1, apellido2, llamadasSinFacturar);
+        clientes.put(particular.getNIF(), particular);
     }
 
-    public void añadirClienteEmpresa(String nombre, String NIF, Direccion direccion, String email) {
+    public void añadirClienteEmpresa(String nombre, String NIF, Direccion direccion, String email, Double precioSec) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
-        Cliente persona = new Empresa(nombre, NIF, direccion, email, new Date(), new Tarifa(), facturas, llamadas);
-        clientes.put(persona.NIF, persona);
+        ArrayList<Llamada> llamadasSinFacturar = new ArrayList<Llamada>();
+        Cliente persona = new Empresa(nombre, NIF, direccion, email, new Date(), new Tarifa(precioSec), facturas, llamadas, llamadasSinFacturar);
+        clientes.put(persona.getNIF(), persona);
     }
 
     public Boolean borrarCliente(String NIF){
@@ -46,7 +47,7 @@ public class EmpresaTelefonia {
 
     public Boolean cambiarTarifa(String NIF, double costeSec){
         if(clientes.containsKey(NIF)){
-            clientes.get(NIF).tarifa.setTarifa(costeSec);
+            clientes.get(NIF).setTarifa(new Tarifa(costeSec));
             return true;
         }else{
             return false;
@@ -73,7 +74,7 @@ public class EmpresaTelefonia {
 
     public Boolean hacerLlamada(String NIF, Integer telefonoDestino, Integer duracion){
         if(clientes.containsKey(NIF)){
-            Llamada llamada = new Llamada(telefonoDestino, new Date(), duracion);
+            Llamada llamada = new Llamada(telefonoDestino, Calendar.getInstance(), duracion);
             clientes.get(NIF).llamadasSinFacturar.add(llamada);
             clientes.get(NIF).llamadas.add(llamada);
             return true;
@@ -84,7 +85,7 @@ public class EmpresaTelefonia {
     }
 
     public ArrayList<Llamada> listarLlamadas(String NIF) {
-        ArrayList<Llamada> llamadasCliente = clientes.get(NIF).llamadas;
+        ArrayList<Llamada> llamadasCliente = clientes.get(NIF).getLlamadas();
         return llamadasCliente;
     }
 
@@ -93,18 +94,16 @@ public class EmpresaTelefonia {
     //Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas
 
     public Factura emitirFactura(String NIF){
-        Tarifa tarActual = clientes.get(NIF).tarifa;
-        Integer totalMinutos = 0;
-        Date fechaPrimeraSinFacturar = clientes.get(NIF).llamadasSinFacturar.get(0).getFecha();
-        for(Llamada llamada : clientes.get(NIF).llamadasSinFacturar) {
-            totalMinutos += llamada.duración;
-        }
-        Double importe = tarActual.precioSec * totalMinutos;
-        Date[] periodoFacturacion = new Date[]{fechaPrimeraSinFacturar, new Date()};
-        Factura emision = new Factura(tarActual, new Date(), periodoFacturacion);
+        Tarifa tarActual = clientes.get(NIF).getTarifa();
+        Calendar principioFacturacion = Calendar.getInstance();
+        principioFacturacion.add(Calendar.MONTH, -1);
+        Calendar finalFacturacion = Calendar.getInstance();
+        Factura emision = new Factura(tarActual, new Date(), principioFacturacion, finalFacturacion);
+        List<Llamada> llamadas = clientes.get(NIF).llamadasSinFacturar;
+        emision.calcularImporte(llamadas);
         clientes.get(NIF).facturas.add(emision);
         clientes.get(NIF).llamadasSinFacturar.clear();
-        facturas.put(emision.codigo, emision);
+        facturas.put(emision.getCodigo(), emision);
         return emision;
     }
 

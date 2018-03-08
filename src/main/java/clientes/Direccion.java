@@ -4,9 +4,9 @@ package clientes;
  * Created by al364498 on 20/02/18.
  */
 public class Direccion {
-    public Integer codigoPostal;
-    public String provincia;
-    public String poblacion;
+    private Integer codigoPostal;
+    private String provincia;
+    private String poblacion;
 
     public Direccion(Integer codigoPostal, String provincia, String poblacion) {
         this.codigoPostal = codigoPostal;
@@ -24,5 +24,9 @@ public class Direccion {
 
     public String getPoblacion() {
         return poblacion;
+    }
+
+    public String toString(){
+        return poblacion + ", " + provincia + " (" + codigoPostal + ")";
     }
 }

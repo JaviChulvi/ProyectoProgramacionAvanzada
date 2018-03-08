@@ -1,19 +1,25 @@
 package llamadas;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Llamada {
-    public Integer tlfDestino;
-    public Date fechaYhora;
-    public Integer duración;
+    private Integer tlfDestino;
+    private Calendar fechaYhora;
+    private int duracion;
 
-    public Llamada(Integer tlfDestino, Date fechaYhora, Integer duración) {
+    public Llamada(Integer tlfDestino, Calendar fechaYhora, int duración) {
         this.tlfDestino = tlfDestino;
         this.fechaYhora = fechaYhora;
-        this.duración = duración;
+        this.duracion = duración;
     }
 
-    public Date getFecha() {
+    public Calendar getFecha() {
         return this.fechaYhora;
+    }
+    public int getDuracion(){
+        return duracion;
+    }
+    public String toString(){
+        return "Llamada de " + duracion + " segundos al número " + tlfDestino + " (" + fechaYhora.getTime() + ")";
     }
 }
