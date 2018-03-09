@@ -2,7 +2,7 @@ package main;
 
 import clientes.Cliente;
 import clientes.Direccion;
-import compañiaTelefonica.EmpresaTelefonia;
+import gestionTelefonia.EmpresaTelefonia;
 import factura.Factura;
 import llamadas.Llamada;
 
@@ -106,9 +106,9 @@ public class Main {
         System.out.print("Introduzca el precio de la tarifa en euros por minuto: ");
         Double precioSec = Double.parseDouble(scanner.nextLine());
         if (tipo.equals("particular") || tipo.equals("p")) {
-            telefonica.añadirClienteParticular(nombre, apellido1, apellido2, NIF, dirNuevoCliente, email , precioSec);
+            telefonica.crearClienteParticular(nombre, apellido1, apellido2, NIF, dirNuevoCliente, email , precioSec);
         } else {
-            telefonica.añadirClienteEmpresa(nombre, NIF, dirNuevoCliente, email , precioSec);
+            telefonica.crearClienteEmpresa(nombre, NIF, dirNuevoCliente, email , precioSec);
         }
     }
     public static void screenBorrarCliente() {

@@ -34,23 +34,20 @@ public class Factura {
     public Date getFecha(){
         return this.fechaEmision;
     }
-    /*public float importe(){
-        return suma de minutos de llamadas * tarifa
-    }*/
 
     public String toString(){
         return "Factura de código " + codigo + ":\nImporte: " + importe + "\nFecha de emisión: "
                 + fechaEmision.toString() + "\nPeriodo de facturación: Desde " + principioFacturacion.getTime()
                 + " hasta " + finalFacturacion.getTime();
     }
-    public float calcularImporte(List<Llamada> llamadas){
+    public void calcularImporte(List<Llamada> llamadas){
         float importe = 0;
         for(Llamada l : llamadas){
             if(l.getFecha().before(finalFacturacion) && l.getFecha().after(principioFacturacion)){
                 importe += l.getDuracion() * tarifaAplicada.getEurosPorSegundo();
             }
         }
-        return importe;
+        this.importe = importe;
     }
 
 }

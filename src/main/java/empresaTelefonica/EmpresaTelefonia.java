@@ -1,4 +1,4 @@
-package compañiaTelefonica;
+package empresaTelefonica;
 
 import clientes.Cliente;
 import clientes.Direccion;
@@ -20,7 +20,7 @@ public class EmpresaTelefonia {
 
     // CLIENTES
 
-    public void añadirClienteParticular(String nombre, String apellido1, String apellido2, String NIF, Direccion direccion, String email, Double precioSec) {
+    public void crearClienteParticular(String nombre, String apellido1, String apellido2, String NIF, Direccion direccion, String email, Double precioSec) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
         ArrayList<Llamada> llamadasSinFacturar = new ArrayList<Llamada>();
@@ -28,7 +28,7 @@ public class EmpresaTelefonia {
         clientes.put(particular.getNIF(), particular);
     }
 
-    public void añadirClienteEmpresa(String nombre, String NIF, Direccion direccion, String email, Double precioSec) {
+    public void crearClienteEmpresa(String nombre, String NIF, Direccion direccion, String email, Double precioSec) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
         ArrayList<Llamada> llamadasSinFacturar = new ArrayList<Llamada>();
@@ -99,29 +99,25 @@ public class EmpresaTelefonia {
         principioFacturacion.add(Calendar.MONTH, -1);
         Calendar finalFacturacion = Calendar.getInstance();
         Factura emision = new Factura(tarActual, new Date(), principioFacturacion, finalFacturacion);
+        
         List<Llamada> llamadas = clientes.get(NIF).llamadasSinFacturar;
         emision.calcularImporte(llamadas);
+        
         clientes.get(NIF).facturas.add(emision);
         clientes.get(NIF).llamadasSinFacturar.clear();
         facturas.put(emision.getCodigo(), emision);
+        
         return emision;
     }
-
 
     public Factura datosFactura(Integer codigo){
         return facturas.get(codigo);
     }
-
-
-
 
     //Recuperar todas las facturas de un cliente.
     public ArrayList<Factura> listarFacturas(String NIF){
         ArrayList<Factura> facturasClientes = clientes.get(NIF).facturas;
         return facturasClientes;
     }
-
-
-
 
 }
