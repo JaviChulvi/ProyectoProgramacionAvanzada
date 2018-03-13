@@ -5,7 +5,6 @@ import llamadas.Llamada;
 import tarifa.Tarifa;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -13,16 +12,29 @@ import java.util.Date;
  */
 
 public abstract class Cliente {
+<<<<<<< 28ddab7a9cffe52a95b48729b8203c6a692a5f6a
     private String nombre;
     private String NIF;
     private Direccion direccion;
     private String email;
     private Date fechaDeAlta;
     private Tarifa tarifa;
+=======
+    protected String nombre;
+    protected String NIF;
+    protected Direccion direccion;
+    protected String email;
+    protected Date fechaDeAlta;
+    protected Tarifa tarifa;
+>>>>>>> Desde clase ANTES PRACTICAA
     public ArrayList<Factura> facturas;
     public ArrayList<Llamada> llamadas;
     public ArrayList<Llamada> llamadasSinFacturar;
 
+<<<<<<< 28ddab7a9cffe52a95b48729b8203c6a692a5f6a
+=======
+    public Cliente(){}
+>>>>>>> Desde clase ANTES PRACTICAA
 
     public Cliente(String nombre, String NIF, Direccion direccion, String email, Date fechaDeAlta, Tarifa tarifa, ArrayList<Factura> facturas, ArrayList<Llamada> llamadas, ArrayList<Llamada> llamadasSinFacturar) {
         this.nombre = nombre;

@@ -8,6 +8,8 @@ public class Direccion {
     private String provincia;
     private String poblacion;
 
+    public Direccion(){}
+    
     public Direccion(Integer codigoPostal, String provincia, String poblacion) {
         this.codigoPostal = codigoPostal;
         this.provincia = provincia;

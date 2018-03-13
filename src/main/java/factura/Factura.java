@@ -19,6 +19,11 @@ public class Factura {
     private Calendar finalFacturacion;
     private float importe;
 
+<<<<<<< 28ddab7a9cffe52a95b48729b8203c6a692a5f6a
+=======
+    public Factura(){}
+    
+>>>>>>> Desde clase ANTES PRACTICAA
     public Factura(Tarifa tarifaAplicada, Date fechaEmision, Calendar principioFacturacion, Calendar finalFacturacion) {
         this.codigo = codigoActual++;
         this.tarifaAplicada = tarifaAplicada;
@@ -34,6 +39,13 @@ public class Factura {
     public Date getFecha(){
         return this.fechaEmision;
     }
+<<<<<<< 28ddab7a9cffe52a95b48729b8203c6a692a5f6a
+=======
+    
+    public float getImporte(){
+    	return importe;
+    }
+>>>>>>> Desde clase ANTES PRACTICAA
 
     public String toString(){
         return "Factura de código " + codigo + ":\nImporte: " + importe + "\nFecha de emisión: "
