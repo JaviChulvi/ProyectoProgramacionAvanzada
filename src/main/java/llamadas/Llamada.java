@@ -1,35 +1,34 @@
 package llamadas;
 
-import java.util.Calendar;
 
-public class Llamada {
-<<<<<<< 28ddab7a9cffe52a95b48729b8203c6a692a5f6a
-    private Integer tlfDestino;
-    private Calendar fechaYhora;
-    private int duracion;
+import gestionTelefonia.ObjetosConFecha;
 
-    public Llamada(Integer tlfDestino, Calendar fechaYhora, int duración) {
-=======
+import java.time.LocalDate;
+import java.util.Date;
+
+public class Llamada implements ObjetosConFecha {
+
     private int tlfDestino;
-    private Calendar fechaYhora;
+    private LocalDate fechaYhora;
     private int duracion;
 
     public Llamada(){}
     
-    public Llamada(int tlfDestino, Calendar fechaYhora, int duración) {
->>>>>>> Desde clase ANTES PRACTICAA
+    public Llamada(int tlfDestino, LocalDate fechaYhora, int duración) {
         this.tlfDestino = tlfDestino;
         this.fechaYhora = fechaYhora;
         this.duracion = duración;
     }
 
-    public Calendar getFecha() {
+    @Override
+    public LocalDate getFecha() {
         return this.fechaYhora;
     }
+
     public int getDuracion(){
         return duracion;
     }
     public String toString(){
-        return "Llamada de " + duracion + " segundos al número " + tlfDestino + " (" + fechaYhora.getTime() + ")";
+        return "Llamada de " + duracion + " segundos al número " + tlfDestino + " (" + fechaYhora.toString() + ")";
     }
 }

@@ -1,9 +1,11 @@
 package clientes;
 
 import factura.Factura;
+import gestionTelefonia.ObjetosConFecha;
 import llamadas.Llamada;
 import tarifa.Tarifa;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,32 +13,20 @@ import java.util.Date;
  * Created by al364498 on 20/02/18.
  */
 
-public abstract class Cliente {
-<<<<<<< 28ddab7a9cffe52a95b48729b8203c6a692a5f6a
-    private String nombre;
-    private String NIF;
-    private Direccion direccion;
-    private String email;
-    private Date fechaDeAlta;
-    private Tarifa tarifa;
-=======
+public abstract class Cliente implements ObjetosConFecha {
     protected String nombre;
     protected String NIF;
     protected Direccion direccion;
     protected String email;
-    protected Date fechaDeAlta;
+    protected LocalDate fechaDeAlta;
     protected Tarifa tarifa;
->>>>>>> Desde clase ANTES PRACTICAA
     public ArrayList<Factura> facturas;
     public ArrayList<Llamada> llamadas;
     public ArrayList<Llamada> llamadasSinFacturar;
 
-<<<<<<< 28ddab7a9cffe52a95b48729b8203c6a692a5f6a
-=======
     public Cliente(){}
->>>>>>> Desde clase ANTES PRACTICAA
 
-    public Cliente(String nombre, String NIF, Direccion direccion, String email, Date fechaDeAlta, Tarifa tarifa, ArrayList<Factura> facturas, ArrayList<Llamada> llamadas, ArrayList<Llamada> llamadasSinFacturar) {
+    public Cliente(String nombre, String NIF, Direccion direccion, String email, LocalDate fechaDeAlta, Tarifa tarifa, ArrayList<Factura> facturas, ArrayList<Llamada> llamadas, ArrayList<Llamada> llamadasSinFacturar) {
         this.nombre = nombre;
         this.NIF = NIF;
         this.direccion = direccion;
@@ -48,7 +38,7 @@ public abstract class Cliente {
         this.llamadasSinFacturar = llamadasSinFacturar;
     }
 
-    public Cliente(String nombre, String NIF, Direccion direccion, String email, Date fechaDeAlta, Tarifa tarifa, ArrayList<Factura> facturas, ArrayList<Llamada> llamadas) {
+    public Cliente(String nombre, String NIF, Direccion direccion, String email, LocalDate fechaDeAlta, Tarifa tarifa, ArrayList<Factura> facturas, ArrayList<Llamada> llamadas) {
         this.nombre = nombre;
         this.NIF = NIF;
         this.direccion = direccion;
@@ -59,7 +49,8 @@ public abstract class Cliente {
         this.llamadas = llamadas;
     }
 
-    public Date getFecha(){
+    @Override
+    public LocalDate getFecha(){
         return this.fechaDeAlta;
     }
 
@@ -93,9 +84,6 @@ public abstract class Cliente {
         return email;
     }
 
-    public Date getFechaDeAlta() {
-        return fechaDeAlta;
-    }
 
     public Tarifa getTarifa() {
         return tarifa;
