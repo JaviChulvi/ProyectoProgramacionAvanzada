@@ -131,7 +131,7 @@ public class EmpresaTelefonia {
 
     //SERIALIZABLE
 
-    public  ArrayList serFiltrarPorFecha(ArrayList<ObjetosConFecha> datos, LocalDate fechaInicio, LocalDate fechaFin){
+    public  ArrayList filtrarPorFecha(ArrayList<ObjetosConFecha> datos, LocalDate fechaInicio, LocalDate fechaFin){
         ArrayList datosComprendidos = new <ObjetosConFecha>ArrayList();
         for (ObjetosConFecha dato : datos) {
             if((dato.getFecha().isBefore(fechaInicio)) && (dato.getFecha().isAfter(fechaFin))) {
