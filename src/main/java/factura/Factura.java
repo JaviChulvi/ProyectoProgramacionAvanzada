@@ -4,6 +4,7 @@ import gestionTelefonia.ObjetosConFecha;
 import llamadas.Llamada;
 import tarifa.Tarifa;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by al364498 on 20/02/18.
  */
-public class Factura implements ObjetosConFecha {
+public class Factura implements ObjetosConFecha , Serializable {
     private static int codigoActual = 0;  // Contador para asignar a cada factura un codigo distinto
     private int codigo;  // Único, no lo puede poseer otra factura
     private Tarifa tarifaAplicada;

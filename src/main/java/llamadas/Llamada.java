@@ -3,10 +3,11 @@ package llamadas;
 
 import gestionTelefonia.ObjetosConFecha;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Llamada implements ObjetosConFecha {
+public class Llamada implements ObjetosConFecha , Serializable {
 
     private int tlfDestino;
     private LocalDate fechaYhora;

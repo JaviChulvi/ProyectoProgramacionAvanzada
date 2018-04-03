@@ -1,9 +1,11 @@
 package tarifa;
 
+import java.io.Serializable;
+
 /**
  * Created by al364498 on 20/02/18.
  */
-public class Tarifa {
+public class Tarifa implements Serializable {
     private double precioSec;
 
     public Tarifa(){

@@ -1,9 +1,11 @@
 package clientes;
 
+import java.io.Serializable;
+
 /**
  * Created by al364498 on 20/02/18.
  */
-public class Direccion {
+public class Direccion implements Serializable {
     private Integer codigoPostal;
     private String provincia;
     private String poblacion;

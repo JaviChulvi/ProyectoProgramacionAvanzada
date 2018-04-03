@@ -5,6 +5,7 @@ import gestionTelefonia.ObjetosConFecha;
 import llamadas.Llamada;
 import tarifa.Tarifa;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.Date;
  * Created by al364498 on 20/02/18.
  */
 
-public abstract class Cliente implements ObjetosConFecha {
+public abstract class Cliente implements ObjetosConFecha, Serializable {
     protected String nombre;
     protected String NIF;
     protected Direccion direccion;
