@@ -1,45 +1,52 @@
 package empresaTelefonica;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
 import clientes.Cliente;
 import clientes.Direccion;
 import clientes.Empresa;
 import clientes.Particular;
-import factura.Factura;
+import facturas.Factura;
 import gestionTelefonia.ObjetosConFecha;
 import llamadas.Llamada;
 import tarifa.Tarifa;
+import tarifa.TarifaBasica;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
-
-public class EmpresaTelefonia {
-    public HashMap<String, Cliente> clientes;
-    public HashMap<Integer, Factura> facturas;
-    public EmpresaTelefonia() {
+public class EmpresaTelefonia implements Serializable {
+	private static final long serialVersionUID = 203388081094728352L;
+	public HashMap<String, Cliente> clientes;
+	public HashMap<Integer, Factura> facturas;
+	public EmpresaTelefonia() {
         this.clientes = new HashMap<String, Cliente>();
         this.facturas = new HashMap<Integer, Factura>();
     }
 
     // CLIENTES
 
-    public void crearClienteParticular(String nombre, String apellido1, String apellido2, String NIF, Direccion direccion, String email, Double precioSec) {
+    public void crearClienteParticular(String nombre, String apellido1, String apellido2, String NIF, Direccion direccion, String email, double precioSec) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
         ArrayList<Llamada> llamadasSinFacturar = new ArrayList<Llamada>();
         Date input = new Date();
         LocalDate fechaActual = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        Cliente particular = new Particular(nombre, NIF, direccion, email, fechaActual, new Tarifa(precioSec), facturas, llamadas,  apellido1, apellido2, llamadasSinFacturar);
+        Tarifa tarifa = new TarifaBasica();
+        Cliente particular = new Particular(nombre, NIF, direccion, email, fechaActual, tarifa, facturas, llamadas,  apellido1, apellido2, llamadasSinFacturar);
         clientes.put(particular.getNIF(), particular);
     }
 
-    public void crearClienteEmpresa(String nombre, String NIF, Direccion direccion, String email, Double precioSec) {
+    public void crearClienteEmpresa(String nombre, String NIF, Direccion direccion, String email, double precioSec) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
         ArrayList<Llamada> llamadasSinFacturar = new ArrayList<Llamada>();
         Date input = new Date();
         LocalDate fechaActual = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        Cliente persona = new Empresa(nombre, NIF, direccion, email, fechaActual, new Tarifa(precioSec), facturas, llamadas, llamadasSinFacturar);
+        Tarifa tarifa = new TarifaBasica();
+        Cliente persona = new Empresa(nombre, NIF, direccion, email, fechaActual, tarifa, facturas, llamadas, llamadasSinFacturar);
         clientes.put(persona.getNIF(), persona);
     }
 
@@ -54,7 +61,7 @@ public class EmpresaTelefonia {
 
     public Boolean cambiarTarifa(String NIF, double costeSec){
         if(clientes.containsKey(NIF)){
-            clientes.get(NIF).setTarifa(new Tarifa(costeSec));
+            clientes.get(NIF).setTarifa(new TarifaBasica());
             return true;
         }else{
             return false;
@@ -79,23 +86,18 @@ public class EmpresaTelefonia {
 
     //  LLAMADAS
 
-    public Boolean hacerLlamada(String NIF, Integer telefonoDestino, Integer duracion){
+    public Boolean hacerLlamada(String NIF, int telefonoDestino, int duracion){
         if(clientes.containsKey(NIF)){
-            Date input = new Date();
-            LocalDate fechaActual = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            Llamada llamada = new Llamada(telefonoDestino, fechaActual,duracion);
-            clientes.get(NIF).llamadasSinFacturar.add(llamada);
-            clientes.get(NIF).llamadas.add(llamada);
-            return true;
+        	Cliente cliente = clientes.get(NIF);
+        	cliente.generarLlamada(telefonoDestino, duracion);
+        	return true;
         }else{
             return false;
         }
-
     }
 
     public ArrayList<Llamada> listarLlamadas(String NIF) {
-        ArrayList<Llamada> llamadasCliente = clientes.get(NIF).getLlamadas();
-        return llamadasCliente;
+    	return clientes.get(NIF).getLlamadas();
     }
 
     //FACTURAS
@@ -103,19 +105,8 @@ public class EmpresaTelefonia {
     //Emitir una factura para un cliente, calculando el importe de la misma en función de las llamadas
 
     public Factura emitirFactura(String NIF){
-        Tarifa tarActual = clientes.get(NIF).getTarifa();
-        Date input = new Date();
-        LocalDate finFacturacion = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate principioFacturacion = finFacturacion.minusMonths(1);
-        Factura emision = new Factura(tarActual, finFacturacion, finFacturacion, principioFacturacion);
-        
-        List<Llamada> llamadas = clientes.get(NIF).llamadasSinFacturar;
-        emision.calcularImporte(llamadas);
-        
-        clientes.get(NIF).facturas.add(emision);
-        clientes.get(NIF).llamadasSinFacturar.clear();
+        Factura emision = clientes.get(NIF).generarFactura();
         facturas.put(emision.getCodigo(), emision);
-        
         return emision;
     }
 
@@ -125,16 +116,13 @@ public class EmpresaTelefonia {
 
     //Recuperar todas las facturas de un cliente.
     public ArrayList<Factura> listarFacturas(String NIF){
-        ArrayList<Factura> facturasClientes = clientes.get(NIF).facturas;
-        return facturasClientes;
+        return clientes.get(NIF).getFacturas();
     }
 
-    //SERIALIZABLE
-
-    public  ArrayList filtrarPorFecha(ArrayList<ObjetosConFecha> datos, LocalDate fechaInicio, LocalDate fechaFin){
-        ArrayList datosComprendidos = new <ObjetosConFecha>ArrayList();
+    public ArrayList<? extends ObjetosConFecha> filtrarPorFecha(ArrayList<? extends ObjetosConFecha> datos, LocalDate fechaInicio, LocalDate fechaFin){
+        ArrayList<ObjetosConFecha> datosComprendidos = new ArrayList<ObjetosConFecha>();
         for (ObjetosConFecha dato : datos) {
-            if((dato.getFecha().isBefore(fechaInicio)) && (dato.getFecha().isAfter(fechaFin))) {
+            if((dato.getFecha().isBefore(fechaFin)) && (dato.getFecha().isAfter(fechaInicio))) {
                 datosComprendidos.add(dato);
             }
         }

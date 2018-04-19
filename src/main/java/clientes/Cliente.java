@@ -1,20 +1,23 @@
 package clientes;
 
-import factura.Factura;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+
+import facturas.Factura;
 import gestionTelefonia.ObjetosConFecha;
 import llamadas.Llamada;
 import tarifa.Tarifa;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by al364498 on 20/02/18.
  */
 
-public abstract class Cliente implements ObjetosConFecha {
-    protected String nombre;
+public abstract class Cliente implements ObjetosConFecha, Serializable {
+	private static final long serialVersionUID = -5362681463634090190L;
+	protected String nombre;
     protected String NIF;
     protected Direccion direccion;
     protected String email;
@@ -49,6 +52,30 @@ public abstract class Cliente implements ObjetosConFecha {
         this.llamadas = llamadas;
     }
 
+    public Factura generarFactura(){
+    	Date input = new Date();
+        LocalDate finFacturacion = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate principioFacturacion = finFacturacion.minusMonths(1);
+        
+        Factura factura = new Factura(tarifa, finFacturacion, finFacturacion, principioFacturacion);
+        factura.calcularImporte(llamadasSinFacturar);
+        
+        facturas.add(factura);
+        llamadasSinFacturar.clear();
+        
+        return factura;
+    }
+    
+    public void generarLlamada(int telefonoDestino, int duracion){
+    	Date input = new Date();
+        LocalDate fechaActual = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+        Llamada llamada = new Llamada(telefonoDestino, fechaActual, duracion);
+        
+        llamadasSinFacturar.add(llamada);
+        llamadas.add(llamada);
+    }
+    
     @Override
     public LocalDate getFecha(){
         return this.fechaDeAlta;

@@ -1,12 +1,11 @@
 package clientes;
 
-import factura.Factura;
-import llamadas.Llamada;
-import tarifa.Tarifa;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+
+import facturas.Factura;
+import llamadas.Llamada;
+import tarifa.Tarifa;
 
 public class Particular extends Cliente{
     public String apellido1;

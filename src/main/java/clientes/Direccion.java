@@ -1,10 +1,13 @@
 package clientes;
 
+import java.io.Serializable;
+
 /**
  * Created by al364498 on 20/02/18.
  */
-public class Direccion {
-    private Integer codigoPostal;
+public class Direccion implements Serializable{
+	private static final long serialVersionUID = 3827883816790662508L;
+	private Integer codigoPostal;
     private String provincia;
     private String poblacion;
 

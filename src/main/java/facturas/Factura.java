@@ -1,13 +1,12 @@
-package factura;
+package facturas;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import gestionTelefonia.ImpossibleDateIntervalException;
 import gestionTelefonia.ObjetosConFecha;
 import llamadas.Llamada;
 import tarifa.Tarifa;
-
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by al364498 on 20/02/18.
@@ -21,11 +20,11 @@ public class Factura implements ObjetosConFecha {
     private LocalDate finalFacturacion;
     private float importe;
 
-
     public Factura(){}
-    
-
     public Factura(Tarifa tarifaAplicada, LocalDate fechaEmision, LocalDate principioFacturacion, LocalDate finalFacturacion) {
+    	if(principioFacturacion.isAfter(finalFacturacion))
+    		throw new ImpossibleDateIntervalException("La fecha del principio de la facturación debe ser menor a la de final de la facturación.");
+    	
         this.codigo = codigoActual++;
         this.tarifaAplicada = tarifaAplicada;
         this.fechaEmision = fechaEmision;
@@ -42,11 +41,9 @@ public class Factura implements ObjetosConFecha {
         return this.fechaEmision;
     }
 
-    
     public float getImporte(){
     	return importe;
     }
-
 
     public String toString(){
         return "Factura de código " + codigo + ":\nImporte: " + importe + "\nFecha de emisión: "
@@ -57,7 +54,7 @@ public class Factura implements ObjetosConFecha {
         float importe = 0;
         for(Llamada l : llamadas){
             if(l.getFecha().isBefore(finalFacturacion) && l.getFecha().isAfter(principioFacturacion)){
-                importe += l.getDuracion() * tarifaAplicada.getEurosPorSegundo();
+                importe += l.getDuracion() * tarifaAplicada.getPrecioMin();
             }
         }
         this.importe = importe;
