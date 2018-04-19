@@ -1,5 +1,11 @@
 package clientes;
 
+
+import gestionTelefonia.ObjetosConFecha;
+import llamadas.Llamada;
+import tarifa.Tarifa;
+
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZoneId;

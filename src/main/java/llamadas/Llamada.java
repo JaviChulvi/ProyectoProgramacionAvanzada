@@ -1,15 +1,18 @@
 package llamadas;
 
 
+
+import gestionTelefonia.ObjetosConFecha;
+
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import gestionTelefonia.ObjetosConFecha;
+public class Llamada implements ObjetosConFecha , Serializable {
 
-public class Llamada implements ObjetosConFecha, Serializable {
 
 	private static final long serialVersionUID = 2591627091244637271L;
 	private int tlfDestino;
