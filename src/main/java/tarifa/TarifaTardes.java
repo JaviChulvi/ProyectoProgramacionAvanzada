@@ -2,11 +2,13 @@ package tarifa;
 
 import llamadas.Llamada;
 
+import java.io.Serializable;
+
 /**
  * Created by al364498 on 17/04/18.
  */
-public class TarifaTardes extends Oferta {
-    private static final double precioMinTardes = 0.5;
+public class TarifaTardes extends Oferta implements Serializable {
+    private static final double precioMinTardes = 0.05;
     public TarifaTardes(Tarifa tarifa){
         super(tarifa);
     }

@@ -16,6 +16,8 @@ import gestionTelefonia.ObjetosConFecha;
 import llamadas.Llamada;
 import tarifa.Tarifa;
 import tarifa.TarifaBasica;
+import tarifa.TarifaDomingos;
+import tarifa.TarifaTardes;
 
 public class EmpresaTelefonia implements Serializable {
 	private static final long serialVersionUID = 203388081094728352L;
@@ -28,7 +30,7 @@ public class EmpresaTelefonia implements Serializable {
 
     // CLIENTES
 
-    public void crearClienteParticular(String nombre, String apellido1, String apellido2, String NIF, Direccion direccion, String email, double precioSec) {
+    public void crearClienteParticular(String nombre, String apellido1, String apellido2, String NIF, Direccion direccion, String email) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
         ArrayList<Llamada> llamadasSinFacturar = new ArrayList<Llamada>();
@@ -39,7 +41,7 @@ public class EmpresaTelefonia implements Serializable {
         clientes.put(particular.getNIF(), particular);
     }
 
-    public void crearClienteEmpresa(String nombre, String NIF, Direccion direccion, String email, double precioSec) {
+    public void crearClienteEmpresa(String nombre, String NIF, Direccion direccion, String email) {
         ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
         ArrayList<Factura> facturas = new ArrayList<Factura>();
         ArrayList<Llamada> llamadasSinFacturar = new ArrayList<Llamada>();
@@ -59,9 +61,14 @@ public class EmpresaTelefonia implements Serializable {
         }
     }
 
-    public Boolean cambiarTarifa(String NIF, double costeSec){
+    public Boolean aplicarOferta(String NIF, String tipo){
         if(clientes.containsKey(NIF)){
-            clientes.get(NIF).setTarifa(new TarifaBasica());
+            if(tipo.equals("domingos") || tipo.equals("Domingos") || tipo.equals("d")){
+                clientes.get(NIF).setTarifa(new TarifaDomingos(new TarifaBasica()));
+            }
+            if(tipo.equals("tardes") || tipo.equals("Tardes") || tipo.equals("t")){
+                clientes.get(NIF).setTarifa(new TarifaTardes(new TarifaBasica()));
+            }
             return true;
         }else{
             return false;

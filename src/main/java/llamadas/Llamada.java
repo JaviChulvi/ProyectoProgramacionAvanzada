@@ -22,12 +22,18 @@ public class Llamada implements ObjetosConFecha , Serializable {
 
     public Llamada(){}
     
-    public Llamada(int tlfDestino, LocalDate fecha, int duración) {
+    public Llamada(int tlfDestino, LocalDate fecha, int duracion) {
         this.tlfDestino = tlfDestino;
         this.fecha = fecha;
         Date input = new Date();
         this.hora = input.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
-        this.duracion = duración;
+        this.duracion = duracion;
+    }
+    public Llamada(int tlfDestino, LocalDate fecha, int duracion, LocalTime hora) {
+        this.tlfDestino = tlfDestino;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.duracion = duracion;
     }
 
     @Override

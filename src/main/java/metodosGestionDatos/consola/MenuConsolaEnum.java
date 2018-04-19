@@ -3,7 +3,7 @@ package metodosGestionDatos.consola;
 public enum MenuConsolaEnum {
     ALTA_NUEVO_CLIENTE("Dar de alta un nuevo cliente."),
     BORRAR_CLIENTE("Borrar un cliente."),
-    CAMBIAR_TARIFA("Cambiar la tarifa de un cliente."),
+    APLICAR_OFERTA("Aplica una oferta"),
     DATOS_CLIENTE("Recuperar los datos de un cliente a partir de su NIF."),
     LISTADO_CLIENTES("Recuperar el listado de todos los clientes."),
     ALTA_LLAMADA("Dar de alta una llamada."),

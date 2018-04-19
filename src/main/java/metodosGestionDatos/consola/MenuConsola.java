@@ -47,8 +47,8 @@ public class MenuConsola {
 	            case BORRAR_CLIENTE:
 	                borrarCliente();
 	                break;
-	            case CAMBIAR_TARIFA:
-	                cambiarTarifa();
+	            case APLICAR_OFERTA:
+	                aplicarOferta();
 	                break;
 	            case DATOS_CLIENTE:
 	                datosCliente();
@@ -163,12 +163,10 @@ public class MenuConsola {
         Direccion dirNuevoCliente = new Direccion(CP, provincia, poblacion);
         System.out.print("Introduce el email:");
         String email = scanner.nextLine();
-        System.out.print("Introduzca el precio de la tarifa en euros por minuto: ");
-        Double precioSec = Double.parseDouble(scanner.nextLine());
         if (tipo.equals("particular") || tipo.equals("p")) {
-        	empresaTel.crearClienteParticular(nombre, apellido1, apellido2, NIF, dirNuevoCliente, email , precioSec);
+        	empresaTel.crearClienteParticular(nombre, apellido1, apellido2, NIF, dirNuevoCliente, email);
         } else {
-        	empresaTel.crearClienteEmpresa(nombre, NIF, dirNuevoCliente, email , precioSec);
+        	empresaTel.crearClienteEmpresa(nombre, NIF, dirNuevoCliente, email );
         }
     }
     private void borrarCliente() {
@@ -182,13 +180,13 @@ public class MenuConsola {
             System.out.print("Este cliente no esta dado de alta.");
         }
     }
-    private void cambiarTarifa() {
+    private void aplicarOferta() {
         System.out.print("Introduce el NIF del cliente que quieras cambiar la Tarifa: ");
         String NIF = scanner.nextLine();
         if (empresaTel.clientes.containsKey(NIF)) {
-            System.out.print("Introduce la nueva Tarifa para el cliente seleccionado: ");
-            double nuevaTarifa = scanner.nextDouble();
-            empresaTel.cambiarTarifa(NIF, nuevaTarifa);
+            System.out.print("Introduce el tipo de oferta que quieres aplicar (Tardes o Domingos): ");
+            String tipo = scanner.nextLine();
+            empresaTel.aplicarOferta(NIF, tipo);
         } else {
             System.out.println("No se ha encontrado el cliente.");
         }

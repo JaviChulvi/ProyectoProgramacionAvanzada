@@ -2,10 +2,12 @@ package tarifa;
 
 import llamadas.Llamada;
 
+import java.io.Serializable;
+
 /**
  * Created by al364498 on 17/04/18.
  */
-public class TarifaDomingos extends Oferta {
+public class TarifaDomingos extends Oferta implements Serializable{
 
     private static final double precioMinDomingos = 0;
 

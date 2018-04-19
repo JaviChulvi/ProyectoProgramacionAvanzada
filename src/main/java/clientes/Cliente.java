@@ -62,8 +62,9 @@ public abstract class Cliente implements ObjetosConFecha, Serializable {
     	Date input = new Date();
         LocalDate finFacturacion = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate principioFacturacion = finFacturacion.minusMonths(1);
+        finFacturacion = finFacturacion.plusDays(10);
         
-        Factura factura = new Factura(tarifa, finFacturacion, finFacturacion, principioFacturacion);
+        Factura factura = new Factura(tarifa, principioFacturacion, principioFacturacion, finFacturacion);
         factura.calcularImporte(llamadasSinFacturar);
         
         facturas.add(factura);
@@ -71,7 +72,7 @@ public abstract class Cliente implements ObjetosConFecha, Serializable {
         
         return factura;
     }
-    
+
     public void generarLlamada(int telefonoDestino, int duracion){
     	Date input = new Date();
         LocalDate fechaActual = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

@@ -29,7 +29,7 @@ public class Factura implements ObjetosConFecha , Serializable {
     public Factura(){}
     public Factura(Tarifa tarifaAplicada, LocalDate fechaEmision, LocalDate principioFacturacion, LocalDate finalFacturacion) {
     	if(principioFacturacion.isAfter(finalFacturacion))
-    		throw new ImpossibleDateIntervalException("La fecha del principio de la facturación debe ser menor a la de final de la facturación.");
+    		throw new ImpossibleDateIntervalException("La fecha del principio de la facturación debe ser menor a la de final de la facturación. " + principioFacturacion.toString() + " - " + finalFacturacion.toString());
     	
         this.codigo = codigoActual++;
         this.tarifaAplicada = tarifaAplicada;
@@ -56,14 +56,14 @@ public class Factura implements ObjetosConFecha , Serializable {
                 + fechaEmision.toString() + "\nPeriodo de facturación: Desde " + principioFacturacion.toString()
                 + " hasta " + finalFacturacion.toString();
     }
-   /* public void calcularImporte(List<Llamada> llamadas){
+    public void calcularImporte(List<Llamada> llamadas){
         float importe = 0;
         for(Llamada l : llamadas){
             if(l.getFecha().isBefore(finalFacturacion) && l.getFecha().isAfter(principioFacturacion)){
-                importe += l.getDuracion() * tarifaAplicada.;
+                importe += tarifaAplicada.calcularPrecioLlamada(l);
             }
         }
         this.importe = importe;
-    }*/
+    }
 
 }
