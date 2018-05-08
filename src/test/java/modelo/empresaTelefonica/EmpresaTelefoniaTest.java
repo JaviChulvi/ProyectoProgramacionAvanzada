@@ -3,25 +3,29 @@ package modelo.empresaTelefonica;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Test;
 
+import modelo.clientes.Cliente;
+import modelo.clientes.Empresa;
+import modelo.facturas.Factura;
+import modelo.gestionTelefonia.ImpossibleDateIntervalException;
 import modelo.llamadas.Llamada;
 import modelo.tarifa.Tarifa;
 import modelo.tarifa.TarifaBasica;
-import modelo.tarifa.TarifaDomingos;
-import modelo.tarifa.TarifaTardes;
+import modelo.tarifa.TarifaDiaDeLaSemana;
+import modelo.tarifa.TarifaIntervaloHorario;
 
 public class EmpresaTelefoniaTest {
 
-	/*@Test
+	@Test
 	public void testEmitirFacturaConLlamadas() {
 		System.out.println("\n## TEST DE EMISIÓN DE UNA FACTURA CON VARIAS LLAMADAS ##");
 		float ratio = 0.7f; // €/min
@@ -40,13 +44,13 @@ public class EmpresaTelefoniaTest {
 		LocalDate principioFacturacion = LocalDate.now().minusMonths(1);
 		LocalDate finalFacturacion = LocalDate.now().plusMonths(1);
 
-		Tarifa modelo.tarifa = new TarifaBasica();
-		List<Llamada> modelo.llamadas = new LinkedList<Llamada>();
+		Tarifa tarifa = new TarifaBasica(ratio);
+		List<Llamada> llamadas = new LinkedList<Llamada>();
 		for(int i = 0; i < minutosDeLasLlamadas.length; i++)
-			modelo.llamadas.add(new Llamada(636542197, LocalDate.now(), minutosDeLasLlamadas[i]));
+			llamadas.add(new Llamada(636542197, LocalDate.now(), minutosDeLasLlamadas[i]));
 
-		Factura facturaNormal = new Factura(modelo.tarifa, fechaActual, principioFacturacion, finalFacturacion);
-		facturaNormal.calcularImporte(modelo.llamadas);
+		Factura facturaNormal = new Factura(tarifa, fechaActual, principioFacturacion, finalFacturacion);
+		facturaNormal.calcularImporte(llamadas);
 
 		System.out.println("\nImporte esperado: " + precioEsperado + "\nImporte calculado: " + facturaNormal.getImporte());
 		assertEquals(precioEsperado, facturaNormal.getImporte(), 0.001);
@@ -55,21 +59,20 @@ public class EmpresaTelefoniaTest {
 	@Test
 	public void testEmitirFacturaSinLlamadas(){
 		System.out.println("\n## TEST DE EMISIÓN DE UNA FACTURA SIN LLAMADAS ##");
-		float ratio = 0.7f; // €/min
 
 		LocalDate fechaActual = LocalDate.now();
 		LocalDate principioFacturacion = LocalDate.now().minusMonths(1);
 		LocalDate finalFacturacion = LocalDate.now().plusMonths(1);
 
-		Tarifa modelo.tarifa = new TarifaBasica();
-		Factura facturaSinLlamadas = new Factura(modelo.tarifa, fechaActual, principioFacturacion, finalFacturacion);
+		Tarifa tarifa = new TarifaBasica(0.15);
+		Factura facturaSinLlamadas = new Factura(tarifa, fechaActual, principioFacturacion, finalFacturacion);
 		facturaSinLlamadas.calcularImporte(new LinkedList<Llamada>());
 
 		System.out.println("Importe esperado: 0.0\nImporte calculado: " + facturaSinLlamadas.getImporte());
 		assertEquals(0, facturaSinLlamadas.getImporte(), 0.001);
 	}
 
-	@Test
+/*	@Test
 	public void testGestionClientes(){
 		System.out.println("\n## TEST DE GESTION DE CLIENTES ##");
 		EmpresaTelefonia tel = new EmpresaTelefonia();
@@ -117,11 +120,12 @@ public class EmpresaTelefoniaTest {
 		if(tel.datosCliente("53219723W") != null || tel.datosCliente("12591462L") != null)
 			fail();
 	}
-
+*/
+	
 	@Test(expected=ImpossibleDateIntervalException.class)
 	public void testExcepcionFechas(){
 		System.out.println("\n## TEST DE IMPOSSIBLE_DATE_INTERVAL_EXCEPTION ##");
-		Factura factura = new Factura(new TarifaBasica(), LocalDate.now(), LocalDate.now(), LocalDate.now().minusMonths(1));
+		Factura factura = new Factura(new TarifaBasica(0.15), LocalDate.now(), LocalDate.now(), LocalDate.now().minusMonths(1));
 		System.out.println("ERROR: Se esperaba que se lanzase la excepción ImpossibleDateIntervalException().");
 	}
 
@@ -133,34 +137,51 @@ public class EmpresaTelefoniaTest {
 		LocalDate haceUnMes = LocalDate.now().minusMonths(1);
 		LocalDate haceMedioMes = LocalDate.now().minusDays(15);
 
-		ArrayList<Cliente> modelo.clientes = new ArrayList<Cliente>();
-		modelo.clientes.add(new Empresa(null, "123", null, null, hoy, null, null, null));
-		modelo.clientes.add(new Empresa(null, "456", null, null, hoy, null, null, null));
-		modelo.clientes.add(new Empresa(null, "abc", null, null, haceUnMes, null, null, null));
-		modelo.clientes.add(new Empresa(null, "789", null, null, hoy, null, null, null));
-		modelo.clientes.add(new Empresa(null, "def", null, null, haceUnMes, null, null, null));
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		clientes.add(new Empresa(null, "123", null, null, hoy, null));
+		clientes.add(new Empresa(null, "456", null, null, hoy, null));
+		clientes.add(new Empresa(null, "abc", null, null, haceUnMes, null));
+		clientes.add(new Empresa(null, "789", null, null, hoy, null));
+		clientes.add(new Empresa(null, "def", null, null, haceUnMes, null));
 
-		ArrayList<Cliente> resultado = (ArrayList<Cliente>) new EmpresaTelefonia().filtrarPorFecha(modelo.clientes, haceMedioMes, dentroDeMedioMes);
+		ArrayList<Cliente> resultado = (ArrayList<Cliente>) new EmpresaTelefonia().filtrarPorFecha(clientes, haceMedioMes, dentroDeMedioMes);
 
 		assertThat(resultado.size(), is(3));
-	}*/
+	}
 
 	@Test
 	public void testTarifa() {
-		Date input = new Date();
-		LocalDate fecha = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalTime hora = input.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
-        hora = hora.withHour(19);
-        fecha=fecha.with(DayOfWeek.SUNDAY);
-		Llamada llamada = new Llamada(666, fecha, 5, hora);
-		Tarifa tarifa = new TarifaBasica();
-		assertThat(tarifa.calcularPrecioLlamada(llamada), is(0.75));
-		tarifa = new TarifaTardes(tarifa);
-		assertThat(tarifa.calcularPrecioLlamada(llamada), is(0.25));
-		tarifa = new TarifaDomingos(tarifa);
-		assertThat(tarifa.calcularPrecioLlamada(llamada), is(0.0));
+		System.out.println("\n## TEST DE DECORADOR ##");
+		LocalDate fecha1 = LocalDate.of(2018, 4, 22);		// Día de la llamada 1: un domingo cualquiera
+		LocalDate fecha2 = LocalDate.of(2018, 4, 19);		// Día de la llamada 2: un jueves cualquiera
+		LocalTime hora1 = LocalTime.of(3, 0); 				// Hora de realización de la llamada 1: 3pm o 3:00
+        LocalTime hora2 = LocalTime.of(18, 0); 				// Hora de realización de la llamada 2: 6pm o 18:00
+        
+        LocalTime horaInicioOferta = LocalTime.of(16, 0); 	// Hora de inicio de la oferta: 4pm o 16:00
+        LocalTime horaFinOferta = LocalTime.of(20, 0); 		// Hora de final de la oferta: 8pm o 20:00
+        
+		Llamada llamada1 = new Llamada(420, fecha1, 7, hora1); 	// Llamada de 7 minutos un domingo a las 3:00
+		Llamada llamada2 = new Llamada(666, fecha2, 5, hora2); 	// Llamada de 5 minutos un jueves a las 18:00
+		
+		Tarifa tarifa = new TarifaBasica(0.15);
+		assertThat(tarifa.calcularPrecioLlamada(llamada1), is(1.05)); 	// 0.15 €/min * 7 min = 1.05 €
+		assertThat(tarifa.calcularPrecioLlamada(llamada2), is(0.75));	// 0.15 €/min * 5 min = 0.75 €
+		
+		tarifa = new TarifaIntervaloHorario(tarifa, 0.10, horaInicioOferta, horaFinOferta);
+		assertThat(tarifa.calcularPrecioLlamada(llamada1), is(1.05));	// NO se aplica oferta de tarde: 1.05 €
+		assertThat(tarifa.calcularPrecioLlamada(llamada2), is(0.50));	// Se aplica la oferta de tarde: 0.10 €/min * 5 min = 0.50 €
+		
+		tarifa = new TarifaDiaDeLaSemana(tarifa, 0, DayOfWeek.SUNDAY);
+		assertThat(tarifa.calcularPrecioLlamada(llamada1), is(0.0));	// Se aplica la modelo.tarifa de domingos: 0 €
+		assertThat(tarifa.calcularPrecioLlamada(llamada2), is(0.50));	// NO se aplica la modelo.tarifa de domingos, pero si la anterior: 0.50 €
 	}
 }
+
+
+
+
+
+
 
 
 
