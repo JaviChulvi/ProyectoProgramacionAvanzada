@@ -1,9 +1,8 @@
 package vista;
-import com.sun.prism.*;
+
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 /**
  * Created by al364498 on 24/04/18.
@@ -42,6 +41,7 @@ public class InterfazGrafica extends JFrame{
 
         JPanel jplInnerPanelFacturas = createInnerPanel();
         tabbedPane.addTab("Facturas", null, jplInnerPanelFacturas, "Tab 3");
+        addPanelFacturas(jplInnerPanelFacturas);
         tabbedPane.setSelectedIndex(0);
 
         contenedor.add(tabbedPane);
@@ -90,17 +90,27 @@ public class InterfazGrafica extends JFrame{
         panel.add(jlEmail);
         panel.add(email);
 
+        EscuchadorBotonesClientes escuchadorBotonesClientes = new EscuchadorBotonesClientes();
+
         JPanel jpBotonesCliente = new JPanel();
         JButton jbAddClientes = new JButton("Añadir cliente");
+        jbAddClientes.setActionCommand("añadir-cliente");
+        jbAddClientes.addActionListener(escuchadorBotonesClientes);
         jpBotonesCliente.add(jbAddClientes);
 
         JButton jbDeleteCliente = new JButton("Borrar cliente");
+        jbDeleteCliente.setActionCommand("borrar-cliente");
+        jbDeleteCliente.addActionListener(escuchadorBotonesClientes);
         jpBotonesCliente.add(jbDeleteCliente);
 
         JButton jbBuscarCliente = new JButton("Buscar cliente");
+        jbBuscarCliente.setActionCommand("buscar-cliente");
+        jbBuscarCliente.addActionListener(escuchadorBotonesClientes);
         jpBotonesCliente.add(jbBuscarCliente);
 
         JButton jbMostrarClientes = new JButton("Mostrar cliente");
+        jbMostrarClientes.setActionCommand("mostrar-cliente");
+        jbMostrarClientes.addActionListener(escuchadorBotonesClientes);
         jpBotonesCliente.add(jbMostrarClientes);
 
         panel.add(jpBotonesCliente);
@@ -125,13 +135,53 @@ public class InterfazGrafica extends JFrame{
         panel.add(jlDuracion);
         panel.add(duracion);
 
-        JPanel jpBotonesLlamadas = new JPanel();
-        JButton jbAddClientes = new JButton("Hacer llamada");
-        jpBotonesLlamadas.add(jbAddClientes);
+        EscuchadorBotonesLlamadas escuchadorBotonesLlamadas = new EscuchadorBotonesLlamadas();
 
-        JButton jbDeleteCliente = new JButton("Listar llamadas");
-        jpBotonesLlamadas.add(jbDeleteCliente);
-        
+        JPanel jpBotonesLlamadas = new JPanel();
+        JButton jbHacerLlamadas = new JButton("Hacer llamada");
+        jbHacerLlamadas.setActionCommand("hacer-llamada");
+        jbHacerLlamadas.addActionListener(escuchadorBotonesLlamadas);
+        jpBotonesLlamadas.add(jbHacerLlamadas);
+
+        JButton jbListarLlamada = new JButton("Listar llamadas");
+        jbListarLlamada.setActionCommand("listar-llamadas");
+        jbListarLlamada.addActionListener(escuchadorBotonesLlamadas);
+        jpBotonesLlamadas.add(jbListarLlamada);
+
         panel.add(jpBotonesLlamadas);
+    }
+
+    public void addPanelFacturas(JPanel panel){
+        JTextField nifCliente = new JTextField(20);
+        JLabel jlNIFCliente = new JLabel("NIF del cliente: ");
+        panel.setLayout(new BoxLayout(panel , 1));
+        panel.add(jlNIFCliente);
+        panel.add(nifCliente);
+
+        JTextField codigoFactura = new JTextField(20);
+        JLabel jlcodigoFactura = new JLabel("Codigo de la factura: ");
+        panel.setLayout(new BoxLayout(panel , 1));
+        panel.add(jlcodigoFactura);
+        panel.add(codigoFactura);
+
+        EscuchadorBotonesFacturas escuchadorBotonesFacturas = new EscuchadorBotonesFacturas();
+
+        JPanel jpBotonesFacturas = new JPanel();
+        JButton jbDatosFactura = new JButton("Datos factura");
+        jbDatosFactura.setActionCommand("datos-factura");
+        jbDatosFactura.addActionListener(escuchadorBotonesFacturas);
+        jpBotonesFacturas.add(jbDatosFactura);
+
+        JButton jbEmitirFactura = new JButton("Emitir factura");
+        jbEmitirFactura.setActionCommand("emitir-factura");
+        jbEmitirFactura.addActionListener(escuchadorBotonesFacturas);
+        jpBotonesFacturas.add(jbEmitirFactura);
+
+        JButton jbListarFacturas = new JButton("Listar facturas de un cliente");
+        jbListarFacturas.setActionCommand("listar-facturas");
+        jbListarFacturas.addActionListener(escuchadorBotonesFacturas);
+        jpBotonesFacturas.add(jbListarFacturas);
+
+        panel.add(jpBotonesFacturas);
     }
 }
