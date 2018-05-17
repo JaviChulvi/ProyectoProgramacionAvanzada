@@ -29,15 +29,17 @@ public class InterfazGrafica extends JFrame{
     private JTextField jtProvincia;
     private JTextField jtPoblacion;
     private JTextField jtEmail;
-    private JLabel jbMostrarInformacion;
+    private JLabel jbMostrarInformacionClientes;
     private ButtonGroup bgTipoCliente;
     private JRadioButtonMenuItem jrbParticular;
     private JRadioButtonMenuItem jrbEmpresa;
 
+    private JLabel jbMostrarInformacionLlamadas;
     private JTextField jtNifClienteLlamada;
     private JTextField jtNumeroDestino;
     private JTextField jtDuracion;
 
+    private JLabel jbMostrarInformacionFacturas;
     private JTextField jtNifClienteFactura;
     private JTextField jtCodigoFactura;
 
@@ -91,8 +93,8 @@ public class InterfazGrafica extends JFrame{
     }
 
     private void addPanelClientes(JPanel panel) {
-        jbMostrarInformacion = new JLabel();
-        panel.add(jbMostrarInformacion);
+        jbMostrarInformacionClientes = new JLabel();
+        panel.add(jbMostrarInformacionClientes);
 
 
 
@@ -182,6 +184,9 @@ public class InterfazGrafica extends JFrame{
     }
 
     private void addPanelLamadas(JPanel panel) {
+        jbMostrarInformacionLlamadas = new JLabel();
+        panel.add(jbMostrarInformacionLlamadas);
+
         jtNifClienteLlamada = new JTextField(20);
         JLabel jlNIFCliente = new JLabel("NIF del cliente: ");
         panel.setLayout(new BoxLayout(panel , 1));
@@ -217,6 +222,9 @@ public class InterfazGrafica extends JFrame{
     }
 
     private void addPanelFacturas(JPanel panel){
+        jbMostrarInformacionFacturas = new JLabel();
+        panel.add(jbMostrarInformacionFacturas);
+
         jtNifClienteFactura = new JTextField(20);
         JLabel jlNIFCliente = new JLabel("NIF del cliente: ");
         panel.setLayout(new BoxLayout(panel , 1));
@@ -251,15 +259,35 @@ public class InterfazGrafica extends JFrame{
     }
 
 
-    public void mostrarInformacionCLientesRojo(String informacion){
-        jbMostrarInformacion.setText(informacion);
-        jbMostrarInformacion.setForeground(Color.RED);
-        jbMostrarInformacion.setFont(new java.awt.Font("Tahoma", 0, 15));
+    public void mostrarInformacionClientesRojo(String informacion){
+        jbMostrarInformacionClientes.setText(informacion);
+        jbMostrarInformacionClientes.setForeground(Color.RED);
+        jbMostrarInformacionClientes.setFont(new java.awt.Font("Tahoma", 0, 15));
     }
-    public void mostrarInformacionCLientesVerde(String informacion){
-        jbMostrarInformacion.setText(informacion);
-        jbMostrarInformacion.setForeground(Color.GREEN);
-        jbMostrarInformacion.setFont(new java.awt.Font("Tahoma", 0, 15));
+    public void mostrarInformacionClientesVerde(String informacion){
+        jbMostrarInformacionClientes.setText(informacion);
+        jbMostrarInformacionClientes.setForeground(Color.GREEN);
+        jbMostrarInformacionClientes.setFont(new java.awt.Font("Tahoma", 0, 15));
+    }
+    public void mostrarInformacionLlamadasRojo(String informacion){
+        jbMostrarInformacionLlamadas.setText(informacion);
+        jbMostrarInformacionLlamadas.setForeground(Color.RED);
+        jbMostrarInformacionLlamadas.setFont(new java.awt.Font("Tahoma", 0, 15));
+    }
+    public void mostrarInformacionLlamadasVerde(String informacion){
+        jbMostrarInformacionLlamadas.setText(informacion);
+        jbMostrarInformacionLlamadas.setForeground(Color.GREEN);
+        jbMostrarInformacionLlamadas.setFont(new java.awt.Font("Tahoma", 0, 15));
+    }
+    public void mostrarInformacionFacturasRojo(String informacion){
+        jbMostrarInformacionFacturas.setText(informacion);
+        jbMostrarInformacionFacturas.setForeground(Color.RED);
+        jbMostrarInformacionFacturas.setFont(new java.awt.Font("Tahoma", 0, 15));
+    }
+    public void mostrarInformacionFacturasVerde(String informacion){
+        jbMostrarInformacionFacturas.setText(informacion);
+        jbMostrarInformacionFacturas.setForeground(Color.GREEN);
+        jbMostrarInformacionFacturas.setFont(new java.awt.Font("Tahoma", 0, 15));
     }
 
     public String tipoClienteSeleccionado(){
@@ -267,7 +295,7 @@ public class InterfazGrafica extends JFrame{
             String tipo = bgTipoCliente.getSelection().getActionCommand();
             return tipo;
         } catch (NullPointerException e){
-            mostrarInformacionCLientesRojo("Marca que tipo de cliente ");
+            mostrarInformacionClientesRojo("Marca que tipo de cliente ");
         }
 
         return "nada-seleccionado";
@@ -279,16 +307,22 @@ public class InterfazGrafica extends JFrame{
         } else {
             return null;
         }
+    }
 
+    public String getNifFacturas(){
+        if(!jtNifClienteFactura.getText().isEmpty()) {
+            return jtNifClienteFactura.getText();
+        } else {
+            return null;
+        }
     }
 
     public ArrayList getInformacionAddCliente(){
         ArrayList informacionCliente = new ArrayList<String>();
-
             /*---- Check tipo de cliente que se quiere crear ----*/
         if (tipoClienteSeleccionado().equals("empresa")) {
             if (jtNif.getText().isEmpty() || jtNombre.getText().isEmpty() || jtCodigoPostal.getText().isEmpty() || jtProvincia.getText().isEmpty() ||jtPoblacion.getText().isEmpty() || jtEmail.getText().isEmpty()) {
-                mostrarInformacionCLientesRojo("Revisa el formulario te falta por introducir un dato");
+                mostrarInformacionClientesRojo("Revisa el formulario te falta por introducir un dato");
                 return null;
             } else {
                 informacionCliente.add(jtNif.getText());
@@ -300,7 +334,7 @@ public class InterfazGrafica extends JFrame{
             }
         } else {
             if (jtNif.getText().isEmpty() || jtNombre.getText().isEmpty() || jtApellido1.getText().isEmpty() || jtApellido2.getText().isEmpty() || jtCodigoPostal.getText().isEmpty() || jtProvincia.getText().isEmpty() ||jtPoblacion.getText().isEmpty() || jtEmail.getText().isEmpty()){
-                mostrarInformacionCLientesRojo("Revisa el formulario te falta por introducir un dato");
+                mostrarInformacionClientesRojo("Revisa el formulario te falta por introducir un dato");
                 return null;
             } else {
                 informacionCliente.add(jtNif.getText());
@@ -327,13 +361,13 @@ public class InterfazGrafica extends JFrame{
                 jtProvincia.setText(direccion.getProvincia());
                 jtCodigoPostal.setText(direccion.getCodigoPostal().toString());
                 jtEmail.setText(cliente.getEmail());
-                mostrarInformacionCLientesVerde("Información ya disponible");
+                mostrarInformacionClientesVerde("Información ya disponible");
             } else {
-                mostrarInformacionCLientesRojo("El cliente no se encuentra en el sistema");
+                mostrarInformacionClientesRojo("El cliente no se encuentra en el sistema");
             }
 
         } else {
-            mostrarInformacionCLientesRojo("Tienes que rellenar el campo NIF");
+            mostrarInformacionClientesRojo("Tienes que rellenar el campo NIF");
         }
 
     }
@@ -341,10 +375,10 @@ public class InterfazGrafica extends JFrame{
     public ArrayList getInformacionAddLlamada(){
         ArrayList informacionLlamada = new ArrayList<String>();
         if(jtNifClienteLlamada.getText().isEmpty() || jtNumeroDestino.getText().isEmpty() || jtDuracion.getText().isEmpty()){
-            mostrarInformacionCLientesRojo("");
+            mostrarInformacionClientesRojo("");
         } else {
             if(jtNifClienteLlamada.getText().isEmpty() || jtNumeroDestino.getText().isEmpty() || jtDuracion.getText().isEmpty()){
-                mostrarInformacionCLientesRojo("Rellena todos los campos");
+                mostrarInformacionLlamadasRojo("Rellena todos los campos");
             } else {
                 informacionLlamada.add(jtNifClienteLlamada.getText());
                 informacionLlamada.add(jtNumeroDestino.getText());
@@ -352,7 +386,6 @@ public class InterfazGrafica extends JFrame{
                 return informacionLlamada;
             }
         }
-
         return null;
     }
 }

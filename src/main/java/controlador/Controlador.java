@@ -39,7 +39,7 @@ public class Controlador {
             Direccion direccion = new Direccion(cPostal, provincia, poblacion);
             String email = informacionCliente.get(7);
             empresaTelefonia.crearClienteParticular(nombre,apellido1, apellido2, nif, direccion,email );
-            interfazGrafica.mostrarInformacionCLientesVerde("El usuario (particular) se ha añadido al sistema");
+            interfazGrafica.mostrarInformacionClientesVerde("El usuario (particular) se ha añadido al sistema");
         }
     }
 
@@ -55,7 +55,7 @@ public class Controlador {
             Direccion direccion = new Direccion(cPostal, provincia, poblacion);
             String email = informacionCliente.get(5);
             empresaTelefonia.crearClienteEmpresa(nombre, nif, direccion,email );
-            interfazGrafica.mostrarInformacionCLientesVerde("El usuario (Empresa) se ha añadido al sistema");
+            interfazGrafica.mostrarInformacionClientesVerde("El usuario (Empresa) se ha añadido al sistema");
         }
     }
 
@@ -64,12 +64,12 @@ public class Controlador {
         if(!nif.isEmpty()){
             if(empresaTelefonia.containsCliente(nif)){
                 empresaTelefonia.borrarCliente(nif);
-                interfazGrafica.mostrarInformacionCLientesVerde("Operacion reslizada satisfactoriamente");
+                interfazGrafica.mostrarInformacionClientesVerde("Operacion reslizada satisfactoriamente");
             } else {
-                interfazGrafica.mostrarInformacionCLientesRojo("El sistema no contiene un usuario \n con el nif especificado.");
+                interfazGrafica.mostrarInformacionClientesRojo("El sistema no contiene un usuario con el nif especificado.");
             }
         } else {
-            interfazGrafica.mostrarInformacionCLientesRojo("Introduce un NIF para poder realizar la operación.");
+            interfazGrafica.mostrarInformacionClientesRojo("Introduce un NIF para poder realizar la operación.");
         }
 
 
@@ -82,10 +82,25 @@ public class Controlador {
         String duracionLl = informacionLlamada.get(2);
         int duracionLlamada = Integer.parseInt(duracionLl);
         if(empresaTelefonia.hacerLlamada(nif, numeroDestino, duracionLlamada)){
-            interfazGrafica.mostrarInformacionCLientesVerde("Se ha realizado la llamada.");
+            interfazGrafica.mostrarInformacionLlamadasVerde("Se ha realizado la llamada.");
         } else {
-            interfazGrafica.mostrarInformacionCLientesRojo("El cliente (NIF) no existe en el sistema.");
+            interfazGrafica.mostrarInformacionLlamadasRojo("El cliente (NIF) no existe en el sistema.");
         }
+    }
+
+    public void hacerFactura(){
+        String nif = interfazGrafica.getNifFacturas();
+        if(!nif.isEmpty()){
+            if(empresaTelefonia.containsCliente(nif)){
+                empresaTelefonia.emitirFactura(nif);
+                interfazGrafica.mostrarInformacionFacturasVerde("La operación se ha realizado correctamente.");
+            } else {
+                interfazGrafica.mostrarInformacionFacturasRojo("El sistema no contiene a este cliente");
+            }
+        } else {
+            interfazGrafica.mostrarInformacionFacturasRojo("Rellena el campo NIF");
+        }
+
     }
 
 }

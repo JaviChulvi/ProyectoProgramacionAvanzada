@@ -20,6 +20,7 @@ public class EscuchadorBotonesFacturas implements ActionListener {
                 break;
             case "emitir-factura":
                 System.out.println("Pulsado emitir factura");
+                controlador.hacerFactura();
                 break;
             case "listar-facturas":
                 System.out.println("Pulsado listar facturas");
