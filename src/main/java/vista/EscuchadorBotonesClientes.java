@@ -23,7 +23,7 @@ public class EscuchadorBotonesClientes implements ActionListener{
                 break;
             case "borrar-cliente":
                 System.out.println("Pulsado borrar cliente");
-                //controlador.borrarCliente();
+                controlador.borrarCliente();
                 break;
             case "buscar-cliente":
                 System.out.println("Pulsado buscar cliente");

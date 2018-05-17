@@ -30,6 +30,7 @@ public class InterfazGrafica extends JFrame{
     private JTextField jtPoblacion;
     private JTextField jtEmail;
     private JLabel jbMostrarInformacion;
+    private ButtonGroup bgTipoCliente;
     private JRadioButtonMenuItem jrbParticular;
     private JRadioButtonMenuItem jrbEmpresa;
 
@@ -48,7 +49,7 @@ public class InterfazGrafica extends JFrame{
     public void ejecutar(){
         this.addWindowListener(new EscuchadorVentana());
         this.addMenuPrincipal();
-        this.pack();
+        this.setSize(575, 575);
         setVisible(true);
     }
 
@@ -102,19 +103,17 @@ public class InterfazGrafica extends JFrame{
         panel.add(jtNif);
 
         JLabel jlTipoCliente = new JLabel("Tipo de cliente: ");
-        ButtonGroup bgTipoCliente = new ButtonGroup();
+        bgTipoCliente = new ButtonGroup();
         panel.add(jlTipoCliente);
         jrbParticular = new JRadioButtonMenuItem("Particular");
         bgTipoCliente.add(jrbParticular);
+        jrbParticular.setActionCommand("particular");
         panel.add(jrbParticular);
         jrbEmpresa= new JRadioButtonMenuItem("Empresa");
         bgTipoCliente.add(jrbEmpresa);
+        jrbEmpresa.setActionCommand("empresa");
         panel.add(jrbEmpresa);
 
-        /*JCheckBox empresa = new JCheckBox("Empresa");
-        panel.add(empresa);
-        JCheckBox particular = new JCheckBox("Particular");
-        panel.add(particular);*/
 
         jtNombre = new JTextField(20);
         JLabel jlNombre = new JLabel("Nombre: ");
@@ -252,33 +251,67 @@ public class InterfazGrafica extends JFrame{
     }
 
 
-    public void mostrarInformacionCLientes(String informacion){
+    public void mostrarInformacionCLientesRojo(String informacion){
         jbMostrarInformacion.setText(informacion);
+        jbMostrarInformacion.setForeground(Color.RED);
+        jbMostrarInformacion.setFont(new java.awt.Font("Tahoma", 0, 15));
+    }
+    public void mostrarInformacionCLientesVerde(String informacion){
+        jbMostrarInformacion.setText(informacion);
+        jbMostrarInformacion.setForeground(Color.GREEN);
+        jbMostrarInformacion.setFont(new java.awt.Font("Tahoma", 0, 15));
     }
 
-    public ArrayList recogerInformacionAddCliente(){
+    public String tipoClienteSeleccionado(){
+        try {
+            String tipo = bgTipoCliente.getSelection().getActionCommand();
+            return tipo;
+        } catch (NullPointerException e){
+            mostrarInformacionCLientesRojo("Marca que tipo de cliente ");
+        }
+
+        return "nada-seleccionado";
+    }
+
+    public String getNifClientes(){
+        if(!jtNif.getText().isEmpty()) {
+            return jtNif.getText();
+        } else {
+            return null;
+        }
+
+    }
+
+    public ArrayList getInformacionAddCliente(){
         ArrayList informacionCliente = new ArrayList<String>();
 
-        if (jtNif.getText().isEmpty() || jtNombre.getText().isEmpty() || jtApellido1.getText().isEmpty() || jtApellido2.getText().isEmpty() || jtCodigoPostal.getText().isEmpty() || jtProvincia.getText().isEmpty() ||jtPoblacion.getText().isEmpty() || jtEmail.getText().isEmpty()){
-            jbMostrarInformacion.setText("Revisa el formulario te falta por introducir un dato");
-            jbMostrarInformacion.setForeground(Color.RED);
-            jbMostrarInformacion.setFont(new java.awt.Font("Tahoma", 0, 15));
-            return null;
-        } else {
-
             /*---- Check tipo de cliente que se quiere crear ----*/
-
-            /*if (jrbEmpresa) {
-
-            }*/
-            informacionCliente.add(jtNif.getText());
-            informacionCliente.add(jtNombre.getText());
-            informacionCliente.add(jtApellido1.getText());
-            informacionCliente.add(jtApellido2.getText());
-            informacionCliente.add(jtCodigoPostal.getText());
-            informacionCliente.add(jtProvincia.getText());
-            informacionCliente.add(jtPoblacion.getText());
-            informacionCliente.add(jtEmail.getText());
+        if (tipoClienteSeleccionado().equals("empresa")) {
+            if (jtNif.getText().isEmpty() || jtNombre.getText().isEmpty() || jtCodigoPostal.getText().isEmpty() || jtProvincia.getText().isEmpty() ||jtPoblacion.getText().isEmpty() || jtEmail.getText().isEmpty()) {
+                mostrarInformacionCLientesRojo("Revisa el formulario te falta por introducir un dato");
+                return null;
+            } else {
+                informacionCliente.add(jtNif.getText());
+                informacionCliente.add(jtNombre.getText());
+                informacionCliente.add(jtCodigoPostal.getText());
+                informacionCliente.add(jtProvincia.getText());
+                informacionCliente.add(jtPoblacion.getText());
+                informacionCliente.add(jtEmail.getText());
+            }
+        } else {
+            if (jtNif.getText().isEmpty() || jtNombre.getText().isEmpty() || jtApellido1.getText().isEmpty() || jtApellido2.getText().isEmpty() || jtCodigoPostal.getText().isEmpty() || jtProvincia.getText().isEmpty() ||jtPoblacion.getText().isEmpty() || jtEmail.getText().isEmpty()){
+                mostrarInformacionCLientesRojo("Revisa el formulario te falta por introducir un dato");
+                return null;
+            } else {
+                informacionCliente.add(jtNif.getText());
+                informacionCliente.add(jtNombre.getText());
+                informacionCliente.add(jtApellido1.getText());
+                informacionCliente.add(jtApellido2.getText());
+                informacionCliente.add(jtCodigoPostal.getText());
+                informacionCliente.add(jtProvincia.getText());
+                informacionCliente.add(jtPoblacion.getText());
+                informacionCliente.add(jtEmail.getText());
+            }
         }
         return informacionCliente;
     }
@@ -294,18 +327,32 @@ public class InterfazGrafica extends JFrame{
                 jtProvincia.setText(direccion.getProvincia());
                 jtCodigoPostal.setText(direccion.getCodigoPostal().toString());
                 jtEmail.setText(cliente.getEmail());
-                jbMostrarInformacion.setText("");
+                mostrarInformacionCLientesVerde("Información ya disponible");
             } else {
-                jbMostrarInformacion.setText("El cliente no se encuentra en el sistema");
-                jbMostrarInformacion.setForeground(Color.RED);
-                jbMostrarInformacion.setFont(new java.awt.Font("Tahoma", 0, 15));
+                mostrarInformacionCLientesRojo("El cliente no se encuentra en el sistema");
             }
 
         } else {
-            jbMostrarInformacion.setText("Tienes que rellenar el campo NIF");
-            jbMostrarInformacion.setForeground(Color.RED);
-            jbMostrarInformacion.setFont(new java.awt.Font("Tahoma", 0, 15));
+            mostrarInformacionCLientesRojo("Tienes que rellenar el campo NIF");
         }
 
+    }
+
+    public ArrayList getInformacionAddLlamada(){
+        ArrayList informacionLlamada = new ArrayList<String>();
+        if(jtNifClienteLlamada.getText().isEmpty() || jtNumeroDestino.getText().isEmpty() || jtDuracion.getText().isEmpty()){
+            mostrarInformacionCLientesRojo("");
+        } else {
+            if(jtNifClienteLlamada.getText().isEmpty() || jtNumeroDestino.getText().isEmpty() || jtDuracion.getText().isEmpty()){
+                mostrarInformacionCLientesRojo("Rellena todos los campos");
+            } else {
+                informacionLlamada.add(jtNifClienteLlamada.getText());
+                informacionLlamada.add(jtNumeroDestino.getText());
+                informacionLlamada.add(jtDuracion.getText());
+                return informacionLlamada;
+            }
+        }
+
+        return null;
     }
 }

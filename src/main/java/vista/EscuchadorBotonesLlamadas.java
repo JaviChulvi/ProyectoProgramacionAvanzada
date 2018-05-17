@@ -15,7 +15,7 @@ public class EscuchadorBotonesLlamadas implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()) {
             case "hacer-llamada":
-                System.out.println("Pulsado hacer llamada");
+                controlador.hacerLlamada();
                 break;
             case "listar-llamadas":
                 System.out.println("Pulsado listar llamadas");
