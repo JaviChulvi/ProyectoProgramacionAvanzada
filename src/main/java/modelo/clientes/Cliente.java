@@ -91,6 +91,8 @@ public abstract class Cliente implements ObjetosConFecha, Serializable {
         return nombre;
     }
 
+
+
     public String getNIF() {
         return NIF;
     }

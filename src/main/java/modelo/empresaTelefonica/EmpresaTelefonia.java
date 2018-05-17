@@ -137,4 +137,8 @@ public class EmpresaTelefonia implements Serializable {
         }
         return datosComprendidos;
     }
+
+    public boolean containsCliente(String nif){
+	    return clientes.containsKey(nif);
+    }
 }

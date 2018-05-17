@@ -1,11 +1,16 @@
 package vista;
 
+import controlador.Controlador;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EscuchadorBotonesLlamadas implements ActionListener {
 
-    public EscuchadorBotonesLlamadas(){
+    private Controlador controlador;
+
+    public EscuchadorBotonesLlamadas(Controlador controlador){
+        this.controlador = controlador;
     }
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()) {

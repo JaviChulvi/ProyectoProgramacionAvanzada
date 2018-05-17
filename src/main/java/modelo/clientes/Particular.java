@@ -17,6 +17,14 @@ public class Particular extends Cliente{
         this.apellido2 = apellido2;
     }
 
+    public String getApellido1() {
+        return apellido1;
+    }
+
+    public String getApellido2() {
+        return apellido2;
+    }
+
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Cliente " + nombre + " " + apellido1 + " " + apellido2 + " (" + NIF + "):\n");
